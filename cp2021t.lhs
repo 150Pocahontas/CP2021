@@ -985,9 +985,11 @@ infixr 4 .&&&.
 f .&&&. g = \a -> ((f a) && (g a))
 \end{code}
 
+\pagebreak
 %----------------- Soluções dos alunos -----------------------------------------%
 
 \section{Soluções dos alunos}\label{sec:resolucao}
+  
 Os alunos devem colocar neste anexo as suas soluções para os exercícios
 propostos, de acordo com o "layout" que se fornece. Não podem ser
 alterados os nomes ou tipos das funções dadas, mas pode ser adicionado
@@ -996,7 +998,9 @@ texto, disgramas e/ou outras funções auxiliares que sejam necessárias.
 Valoriza-se a escrita de \emph{pouco} código que corresponda a soluções
 simples e elegantes. 
 
+\vspace{1cm}
 \subsection*{Problema 1} \label{pg:P1}
+\vspace{1cm}
 São dadas:
 \begin{code}
 cataExpAr g = g . recExpAr (cataExpAr g) . outExpAr
@@ -1016,8 +1020,8 @@ ad :: Floating a => a -> ExpAr a -> a
 ad v = p2 . cataExpAr (ad_gen v)
 \end{code}
 
-
-\subsubsection*{outExpAr}
+\vspace{1cm}
+\subsubsection*{outExpAr}%-------------------------------
 
 \begin{eqnarray*}
 \start
@@ -1043,32 +1047,34 @@ ad v = p2 . cataExpAr (ad_gen v)
 %
       |lcbr(
     outExpAr X = i1 () 
+
   )(
     outExpAr (N a) = i2 (i1 a)
   )|
-OU   
+     \\ & &
       |lcbr(
-   outExpAr (Bin bop b c)  = i2 (i2 (i1 (bop,(b,c)))) 
+   outExpAr (Bin op a b)  = i2 (i2 (i1 (op,(a,b)))) 
     )(
-   outExpAr (Un uop d) = i2 (i2 (i2 (uop, d)))
+   outExpAr (Un op a) = i2 (i2 (i2 (op,a)))
   )|
 \end{eqnarray*}
 
-\vspace{0.5cm}
+\vspace{1cm}
 
-\subsubsection*{recExpAr}
+\subsubsection*{recExpAr} %--------------------------------------------------
+\vspace{0.5cm}
 
 \xymatrixcolsep{1pc}\xymatrixrowsep{5pc}
 \centerline{\xymatrix{
-   ExpAr \ar[d]_-{|f|}
+   ExpAr\ a \ar[d]_-{|f|}
                 \ar@@/^2pc/ [rr]^-{|outExpAr|} & \qquad \cong
-&   () + (Int + (BinOp \times (ExpAr \times ExpAr) + (UnOp \times ExpAr)))  \ar[d]^{|id + (id + (id >< (f >< f) + (id >< f)))|}
+&   () + (a + (BinOp \times (ExpAr\ a \times ExpAr\ a) + (UnOp \times ExpAr\ a)))  \ar[d]^{|id + (id + (id >< (f >< f) + (id >< f)))|}
                                      \ar@@/^2pc/ [ll]^-{|inExpAr|}
 \\
-    |C| &  & () + (Int + ((BinOp \times (C \times C)) + (UnOp \times C)))\ar[ll]
+    |C| &  & () + (a + ((BinOp \times (C \times C)) + (UnOp \times C)))\ar[ll]
 }}
 
-\vspace{0.5cm}
+\vspace{1cm}
 
 \begin{eqnarray*}
 \start
@@ -1080,12 +1086,16 @@ OU
 %
 \end{eqnarray*}
 
+\vspace{0.5cm}
 
-\subsubsection*{g\_eval\_exp}
+\subsubsection*{g\_eval\_exp}%-------------------------------------------------
+\vspace{0.5cm}
+De forma a obter o valo final de uma expressão Aritmética, podemos recorrer ao uso do catamorfismo de \textit{ExprAr}.
+\vspace{0.5cm}
 
 \begin{eqnarray*}
 \start
-eval\_exp a = cataExpAr\ (\ g\_eval\_exp\ a\ )
+eval\_exp\ a = cataExpAr\ (\ g\_eval\_exp\ a\ )
 %
 \just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ cataExpAr}}
 %
@@ -1093,74 +1103,143 @@ eval\_exp\ a = (\ g\_eval\_exp\ a\ )\ .\ recExpAr\ (\ cataExprAr\ (\ g\_eval\_ex
 %
 \end{eqnarray*}
 
-\xymatrixcolsep{1pc}\xymatrixrowsep{5pc}
+\vspace{1cm}
+Definindo o diagrama de \textit{eval\_exp},\ podemos obter a expressão pretendida \textit{g\_eval\_exp}.
+\vspace{1cm}
+
+\xymatrixcolsep{2pc}\xymatrixrowsep{6pc}
 \centerline{\xymatrix{
-   ExpAr \ar[d]_-{|cataNat (g_eval_exp a)|}
+   ExpAr\ a\ar[d]_-{|cataNat (g_eval_exp a)|}
                 \ar@@/^2pc/ [rr]^-{|outExpAr|} & \qquad \cong
-&   () + (Int + ((BinOp \times (ExpAr \times ExpAr)) + (UnOp \times ExpAr)))  \ar[d]^{|recExpAr(cataNat (g_eval_exp a))|}
+&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  \ar[d]^{|recExpAr(cataNat (g_eval_exp a))|}
 \\
-    |Int| &  & () + (Int + ((BinOp \times (Int \times Int)) + (UnOp \times Int)))\ar[ll]^-{|g_eval_exp a|}
+    |a| &  & () + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))\ar[ll]^-{|g_eval_exp a|}
 }}
+
+\vspace{3cm}
+
+Neste caso, percorremos todas as expressões, de modo a determinar o valor de cada uma, aplicando posteriormente a cada par de valores a operaçõa determinada pelo \textit{BinOp}, emparelhando inicialmente, com cada par de expressões. Ou seja, o gene de \textit{g\_eval\_exp} pode ser representado pelo seguinte diagrama:
 
 \vspace{1cm}
 
 \xymatrixcolsep{2pc}\xymatrixrowsep{2pc}
-\centerline{\xymatrix {
-    () + (Int + (BinOp \times (Int \times Int) + (UnOp \times Int))) 
-    \ar[d]_{eliminaX + (id + (binOpAux \times (id \times id)) + (unOpAux \times id)))} \\
-    Int + (Int + (Int + Int)) 
-    \ar [d]_{id + (id + [id,id])} \\
-    Int + (Int+Int) 
-    \ar [d]_{id + [id,id]} \\
-    Int + Int
-    \ar [d]_{[id,id]} \\
-    Int \\
+\centerline
+{\xymatrix{
+    () + (a + (BinOp \times (a \times a) + (UnOp \times a))) 
+    \ar[d]_{(calculaX\ a )+ (id + binOpAux + unOpAux)} \\
+    a + (a + a + a)
+    \ar [d]_{[id ,[id , [id,id]]]} \\
+    a
   } 
 }
 
+\vspace{1cm}
 
+Onde \textit{binOpAux} é a função que dada uma operação \textit{Sum} ou \textit{Product} e dois \textit{float} realiza a operação (+) ou (*). 
+A função \textit{unOpAux} é a função que dada um \textit{Negate} ou um \textit{E} e um \textit{Floating a} devolve o simétrico ou o mesmo número. O \textit{()} é substituiso pelo escalar \textit{a} aplicando a função \textit{calculaX a}. Assim sendo:
+
+\vspace{0.5cm}
+
+\begin{eqnarray}
+\start
+g\_eval\_exp\ a =[\ id ,[\ id , [id,id]\ ]\ ]\ .\ (calculaX\ a)\ + (id + binOpAux + unOpAux)) 
+%\
+\just\equiv{\textcolor{blue}{Absorção-+\ (22) ; Natural-id (1)}}
+%
+g\_eval\_exp\ a = [calculaX\ a, [id, [binOpAux,unOpAux]\ ]\ ]
+\end{eqnarray}
+
+\vspace{1cm}
+
+\subsubsection*{clean e gopt}%-------------------------------------------------
+Com o objetivo de otimizar o cálculo do valor de uma expressão Aritmética, tirando proveito dos elementos absorventes das operações, recorremos ao uso do hilomorfismo de \textit{ExprAr}.
 \begin{eqnarray*}
 \start
-g\_eval\_exp a = [id,id] . (id + [id,id]) . (id + (id + [id,id])) . (eliminaX + (id + (binOpAux \times (id \times id)) + (unOpAux \times id)))  
+optmize\_eval\ a = hyloExpAr\ (\ gopt\ a\ )\ clean
 %
-\just\equiv{\textcolor{blue}{Absorção-+\ (22) }}
+\just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ hyloExpAr}}
 %
-g\_eval\_exp a = [id.id.eliminaX, id.[id.id.id,id.[id.binOpAux \times (id \times id)),id.(unOpAux \times id)]]]
+optmize\_eval\ a = cataExpAr(gopt\ a)\ .\ anaExpAr(clean)
 %
-\just\equiv{\textcolor{blue}{Natural-id (1); Def-x (10); Functor-idix (15) }}
+\just\equiv{\textcolor{blue}{Cancelamento-cata (44); Cancelamento-ana(53)}}
 %
-g\_eval\_exp a = [eliminaX,[id,[<binOpAux.\pi1,\pi2>,<unOpAux.\pi1,\pi2>]]]
+optmize\_eval\ a = (gopt\ a).F\cata{gopt\ a}.inExpr.outExpr.F\ana{clean}.clean
 %
-\just\equiv{\textcolor{blue}{Lei da troca-(28)}}
+\just\equiv{\textcolor{blue}{in.out = id; Aplicando as definições em Haskell já determinadas}}
 %
-g\_eval\_exp a = [eliminaX,[id,<[binOpAux.\pi1,unOpAux.\pi1],[\pi2,\pi2]>]
+optmize\_eval\ a = (gopt\ a).recExpAr(cataExpAr (gopt\ a)).recExpAr(anaExpAr clean).clean
 \end{eqnarray*}
 
 
+\vspace{1cm}
+
+De seguida definimos os diagrama de cataExpAr(gopt\ a) e de anaExpAr(clean) de forma a obter o de\textit{optmize\_eval}:
+
+\vspace{1cm}
+
+\xymatrixcolsep{2pc}\xymatrixrowsep{6pc}
+\centerline{\xymatrix{
+    ExpAr\ a
+    			\ar[d]_-{|anaExpAr (clean)|}
+                \ar@@/^2pc/ [rr]^{|clean|} & 
+&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a))) 
+				\ar[d]^{|recExpAr(anaExpAr(clean))|}\\
+    |ExpAr a| &  & () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))
+    			\ar[ll]^-{|inExpAr|}
+}}
+
+\vspace{1cm}
+
+\xymatrixcolsep{2pc}\xymatrixrowsep{6pc}
+\centerline{\xymatrix{
+	ExpAr\ a
+   				\ar[d]_-{|cataNat (gopt a)|}
+                \ar@@/^2pc/ [rr]^-{|outExpAr|} & \qquad \cong
+&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  			\ar[d]^{|recExpAr(cataNat (gopt a))|}
+\\
+    |a| &  & () + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))
+    			\ar[ll]^-{|gopt a|}
+}}
+
+\vspace{1cm}
 
 Solução:
 \begin{code}
-outExpAr :: ExpAr a -> Either () (Either a (Either (BinOp, (ExpAr a, ExpAr a)) (UnOp, ExpAr a)))
+
 outExpAr X = i1 ()
 outExpAr (N a) = i2 (i1 a)
-outExpAr (Bin op a b)  = i2 (i2 (i1 (op,(a,b))))
+outExpAr (Bin op a b) = i2 (i2 (i1 (op,(a,b))))
 outExpAr (Un op a) = i2 (i2 (i2 (op, a)))
 --
 recExpAr f = baseExpAr id id id f f id f
 --
-g_eval_exp a = undefined
+g_eval_exp a = either (calculaX a) (either id (either (binOpAux) (unOpAux)))
+
+calculaX a () = a
+
+binOpAux (Sum,(a,b)) = (+) a b
+binOpAux (Product,(a,b)) = (*) a b
+ 
+unOpAux (Negate,a) = -a
+unOpAux (E,a) = (expd a)
 --
-binOpAux Sum a b = (+) a b
-binOpAux Product a b  = (*) a b
+clean X = i1 ()
+clean (N a) = i2 (i1 a)
+clean (Bin Sum (N 0) a ) = clean a
+clean (Bin Sum a (N 0) ) = clean a
+clean (Bin Product (N 1) a) = clean a
+clean (Bin Product a (N 1)) = clean a
+clean (Bin op a b) = i2 (i2 (i1 (op,(a,b))))
+clean (Un op a) = i2 (i2 (i2 (op, a)))
 --
-unOpAux Negate a = -a
-unOpAux E a = a
---
-eliminaX () = 0
---
-clean = undefined
---
-gopt = undefined 
+
+gopt a = either (calculaX a) (either id (either (goptAux) (unOpAux))) 
+
+goptAux (Sum,(0,a)) = a
+goptAux (Sum,(a,0)) = a
+goptAux (Product,(1,a)) = a
+goptAux (Product,(a,1)) = a
+goptAux (op,(a,b)) = binOpAux (op,(a,b))
 --
 \end{code}
 

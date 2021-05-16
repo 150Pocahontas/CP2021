@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.5.7)  12 MAY 2021 15:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.5.7)  16 MAY 2021 11:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -865,30 +865,32 @@ Overfull \hbox (8.57883pt too wide) in paragraph at lines 1428--1477
 
 \openout5 = `cp2021t.ptb'.
 
+[12]
 \openout5 = `cp2021t.ptb'.
 
-[12] <xymatrix 3x2 247> <xymatrix 3x2 206> [13] <xymatrix 1x5 186>
-Overfull \hbox (118.302pt too wide) in alignment at lines 1648--1663
+ <xymatrix 3x2 247> [13] <xymatrix 3x2 206> [14] <xymatrix 1x3 96>
+Overfull \hbox (1.80856pt too wide) in alignment at lines 1681--1696
  [][][] []
  []
 
+<xymatrix 3x2 203> [15] <xymatrix 3x2 206>
 \openout5 = `cp2021t.ptb'.
 
-[14]
+ [16]
 \openout5 = `cp2021t.ptb'.
 
 
-Overfull \hbox (103.62514pt too wide) in paragraph at lines 1721--1732
+Overfull \hbox (103.62514pt too wide) in paragraph at lines 1797--1808
  [][] 
  []
 
 
-Overfull \hbox (103.62514pt too wide) in paragraph at lines 1721--1732
+Overfull \hbox (103.62514pt too wide) in paragraph at lines 1797--1808
  [][][][] 
  []
 
 
-Overfull \hbox (103.62514pt too wide) in paragraph at lines 1721--1732
+Overfull \hbox (103.62514pt too wide) in paragraph at lines 1797--1808
  [][] 
  []
 
@@ -906,28 +908,28 @@ Overfull \hbox (103.62514pt too wide) in paragraph at lines 1721--1732
 
 \openout5 = `cp2021t.ptb'.
 
-(./cp2021t.ind [15] [16
+(./cp2021t.ind [17] [18
 
 
 ]) (./cp2021t.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1838.
- [17
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1914.
+ [19
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1838.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1914.
  (./cp2021t.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1838.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1838.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1914.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1914.
 
 Package rerunfilecheck Info: File `cp2021t.out' has not changed.
 (rerunfilecheck)             Checksum: 7ABFEEFBC6EDEE4EAEC2BDEF142178CE;514.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1838.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1914.
  ) 
 Here is how much of TeX's memory you used:
- 13552 strings out of 480906
- 197430 string characters out of 5910773
+ 13539 strings out of 480906
+ 197273 string characters out of 5910773
  541664 words of memory out of 5000000
- 28727 multiletter control sequences out of 15000+600000
+ 28711 multiletter control sequences out of 15000+600000
  570902 words of font info for 130 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  45i,19n,77p,3290b,697s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -957,10 +959,10 @@ exmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/palatino/uplri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/xypic/xyatip10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/xypi
 c/xybtip10.pfb>
-Output written on cp2021t.pdf (17 pages, 350285 bytes).
+Output written on cp2021t.pdf (19 pages, 356909 bytes).
 PDF statistics:
- 440 PDF objects out of 1000 (max. 8388607)
- 388 compressed objects within 4 object streams
- 82 named destinations out of 1000 (max. 500000)
+ 456 PDF objects out of 1000 (max. 8388607)
+ 401 compressed objects within 5 object streams
+ 85 named destinations out of 1000 (max. 500000)
  70 words of extra memory for PDF output out of 10000 (max. 10000000)
 

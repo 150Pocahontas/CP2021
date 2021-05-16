@@ -1514,9 +1514,11 @@ Lógicas:
 \ColumnHook
 \end{hscode}\resethooks
 
+\pagebreak
 %----------------- Soluções dos alunos -----------------------------------------%
 
 \section{Soluções dos alunos}\label{sec:resolucao}
+  
 Os alunos devem colocar neste anexo as suas soluções para os exercícios
 propostos, de acordo com o "layout" que se fornece. Não podem ser
 alterados os nomes ou tipos das funções dadas, mas pode ser adicionado
@@ -1525,7 +1527,9 @@ texto, disgramas e/ou outras funções auxiliares que sejam necessárias.
 Valoriza-se a escrita de \emph{pouco} código que corresponda a soluções
 simples e elegantes. 
 
+\vspace{1cm}
 \subsection*{Problema 1} \label{pg:P1}
+\vspace{1cm}
 São dadas:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1554,8 +1558,8 @@ São dadas:
 \ColumnHook
 \end{hscode}\resethooks
 
-
-\subsubsection*{outExpAr}
+\vspace{1cm}
+\subsubsection*{outExpAr}%-------------------------------
 
 \begin{eqnarray*}
 \start
@@ -1576,25 +1580,26 @@ São dadas:
 \just\equiv{\textcolor{blue}{Natural-id\ (1),\ Igualdade\ Extensional\ (69),\ Def-comp\ (70)}}
 %
       \ensuremath{\begin{lcbr}\Varid{outExpAr}\;\Conid{X}\mathrel{=}i_1\;()\\\Varid{outExpAr}\;(\Conid{N}\;\Varid{a})\mathrel{=}i_2\;(i_1\;\Varid{a})\end{lcbr}}
-OU   
-      \ensuremath{\begin{lcbr}\Varid{outExpAr}\;(\Conid{Bin}\;\Varid{bop}\;\Varid{b}\;\Varid{c})\mathrel{=}i_2\;(i_2\;(i_1\;(\Varid{bop},(\Varid{b},\Varid{c}))))\\\Varid{outExpAr}\;(\Conid{Un}\;\Varid{uop}\;\Varid{d})\mathrel{=}i_2\;(i_2\;(i_2\;(\Varid{uop},\Varid{d})))\end{lcbr}}
+     \\ & &
+      \ensuremath{\begin{lcbr}\Varid{outExpAr}\;(\Conid{Bin}\;\Varid{op}\;\Varid{a}\;\Varid{b})\mathrel{=}i_2\;(i_2\;(i_1\;(\Varid{op},(\Varid{a},\Varid{b}))))\\\Varid{outExpAr}\;(\Conid{Un}\;\Varid{op}\;\Varid{a})\mathrel{=}i_2\;(i_2\;(i_2\;(\Varid{op},\Varid{a})))\end{lcbr}}
 \end{eqnarray*}
 
-\vspace{0.5cm}
+\vspace{1cm}
 
-\subsubsection*{recExpAr}
+\subsubsection*{recExpAr} %--------------------------------------------------
+\vspace{0.5cm}
 
 \xymatrixcolsep{1pc}\xymatrixrowsep{5pc}
 \centerline{\xymatrix{
-   ExpAr \ar[d]_-{\ensuremath{\Varid{f}}}
+   ExpAr\ a \ar[d]_-{\ensuremath{\Varid{f}}}
                 \ar@/^2pc/ [rr]^-{\ensuremath{\Varid{outExpAr}}} & \qquad \cong
-&   () + (Int + (BinOp \times (ExpAr \times ExpAr) + (UnOp \times ExpAr)))  \ar[d]^{\ensuremath{\Varid{id}\mathbin{+}(\Varid{id}\mathbin{+}(\Varid{id}\times(\Varid{f}\times\Varid{f})\mathbin{+}(\Varid{id}\times\Varid{f})))}}
+&   () + (a + (BinOp \times (ExpAr\ a \times ExpAr\ a) + (UnOp \times ExpAr\ a)))  \ar[d]^{\ensuremath{\Varid{id}\mathbin{+}(\Varid{id}\mathbin{+}(\Varid{id}\times(\Varid{f}\times\Varid{f})\mathbin{+}(\Varid{id}\times\Varid{f})))}}
                                      \ar@/^2pc/ [ll]^-{\ensuremath{\Varid{inExpAr}}}
 \\
-    \ensuremath{\Conid{C}} &  & () + (Int + ((BinOp \times (C \times C)) + (UnOp \times C)))\ar[ll]
+    \ensuremath{\Conid{C}} &  & () + (a + ((BinOp \times (C \times C)) + (UnOp \times C)))\ar[ll]
 }}
 
-\vspace{0.5cm}
+\vspace{1cm}
 
 \begin{eqnarray*}
 \start
@@ -1606,12 +1611,16 @@ OU
 %
 \end{eqnarray*}
 
+\vspace{0.5cm}
 
-\subsubsection*{g\_eval\_exp}
+\subsubsection*{g\_eval\_exp}%-------------------------------------------------
+\vspace{0.5cm}
+De forma a obter o valo final de uma expressão Aritmética, podemos recorrer ao uso do catamorfismo de \textit{ExprAr}.
+\vspace{0.5cm}
 
 \begin{eqnarray*}
 \start
-eval\_exp a = cataExpAr\ (\ g\_eval\_exp\ a\ )
+eval\_exp\ a = cataExpAr\ (\ g\_eval\_exp\ a\ )
 %
 \just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ cataExpAr}}
 %
@@ -1619,65 +1628,115 @@ eval\_exp\ a = (\ g\_eval\_exp\ a\ )\ .\ recExpAr\ (\ cataExprAr\ (\ g\_eval\_ex
 %
 \end{eqnarray*}
 
-\xymatrixcolsep{1pc}\xymatrixrowsep{5pc}
+\vspace{1cm}
+Definindo o diagrama de \textit{eval\_exp},\ podemos obter a expressão pretendida \textit{g\_eval\_exp}.
+\vspace{1cm}
+
+\xymatrixcolsep{2pc}\xymatrixrowsep{6pc}
 \centerline{\xymatrix{
-   ExpAr \ar[d]_-{\ensuremath{\cata{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}}
+   ExpAr\ a\ar[d]_-{\ensuremath{\cata{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}}
                 \ar@/^2pc/ [rr]^-{\ensuremath{\Varid{outExpAr}}} & \qquad \cong
-&   () + (Int + ((BinOp \times (ExpAr \times ExpAr)) + (UnOp \times ExpAr)))  \ar[d]^{\ensuremath{\Varid{recExpAr}\;\cata{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}}
+&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  \ar[d]^{\ensuremath{\Varid{recExpAr}\;\cata{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}}
 \\
-    \ensuremath{\Conid{Int}} &  & () + (Int + ((BinOp \times (Int \times Int)) + (UnOp \times Int)))\ar[ll]^-{\ensuremath{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}
+    \ensuremath{\Varid{a}} &  & () + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))\ar[ll]^-{\ensuremath{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}
 }}
+
+\vspace{3cm}
+
+Neste caso, percorremos todas as expressões, de modo a determinar o valor de cada uma, aplicando posteriormente a cada par de valores a operaçõa determinada pelo \textit{BinOp}, emparelhando inicialmente, com cada par de expressões. Ou seja, o gene de \textit{g\_eval\_exp} pode ser representado pelo seguinte diagrama:
 
 \vspace{1cm}
 
 \xymatrixcolsep{2pc}\xymatrixrowsep{2pc}
-\centerline{\xymatrix {
-    () + (Int + (BinOp \times (Int \times Int) + (UnOp \times Int))) 
-    \ar[d]_{eliminaX + (id + (binOpAux \times (id \times id)) + (unOpAux \times id)))} \\
-    Int + (Int + (Int + Int)) 
-    \ar [d]_{id + (id + [id,id])} \\
-    Int + (Int+Int) 
-    \ar [d]_{id + [id,id]} \\
-    Int + Int
-    \ar [d]_{[id,id]} \\
-    Int \\
+\centerline
+{\xymatrix{
+    () + (a + (BinOp \times (a \times a) + (UnOp \times a))) 
+    \ar[d]_{(calculaX\ a )+ (id + binOpAux + unOpAux)} \\
+    a + (a + a + a)
+    \ar [d]_{[id ,[id , [id,id]]]} \\
+    a
   } 
 }
 
+\vspace{1cm}
 
+Onde \textit{binOpAux} é a função que dada uma operação \textit{Sum} ou \textit{Product} e dois \textit{float} realiza a operação (+) ou (*). 
+A função \textit{unOpAux} é a função que dada um \textit{Negate} ou um \textit{E} e um \textit{Floating a} devolve o simétrico ou o mesmo número. O \textit{()} é substituiso pelo escalar \textit{a} aplicando a função \textit{calculaX a}. Assim sendo:
+
+\vspace{0.5cm}
+
+\begin{eqnarray}
+\start
+g\_eval\_exp\ a =[\ id ,[\ id , [id,id]\ ]\ ]\ .\ (calculaX\ a)\ + (id + binOpAux + unOpAux)) 
+%\
+\just\equiv{\textcolor{blue}{Absorção-+\ (22) ; Natural-id (1)}}
+%
+g\_eval\_exp\ a = [calculaX\ a, [id, [binOpAux,unOpAux]\ ]\ ]
+\end{eqnarray}
+
+\vspace{1cm}
+
+\subsubsection*{clean e gopt}%-------------------------------------------------
+Com o objetivo de otimizar o cálculo do valor de uma expressão Aritmética, tirando proveito dos elementos absorventes das operações, recorremos ao uso do hilomorfismo de \textit{ExprAr}.
 \begin{eqnarray*}
 \start
-g\_eval\_exp a = [id,id] . (id + [id,id]) . (id + (id + [id,id])) . (eliminaX + (id + (binOpAux \times (id \times id)) + (unOpAux \times id)))  
+optmize\_eval\ a = hyloExpAr\ (\ gopt\ a\ )\ clean
 %
-\just\equiv{\textcolor{blue}{Absorção-+\ (22) }}
+\just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ hyloExpAr}}
 %
-g\_eval\_exp a = [id.id.eliminaX, id.[id.id.id,id.[id.binOpAux \times (id \times id)),id.(unOpAux \times id)]]]
+optmize\_eval\ a = cataExpAr(gopt\ a)\ .\ anaExpAr(clean)
 %
-\just\equiv{\textcolor{blue}{Natural-id (1); Def-x (10); Functor-idix (15) }}
+\just\equiv{\textcolor{blue}{Cancelamento-cata (44); Cancelamento-ana(53)}}
 %
-g\_eval\_exp a = [eliminaX,[id,[<binOpAux.\pi1,\pi2>,<unOpAux.\pi1,\pi2>]]]
+optmize\_eval\ a = (gopt\ a).F\cata{gopt\ a}.inExpr.outExpr.F\ana{clean}.clean
 %
-\just\equiv{\textcolor{blue}{Lei da troca-(28)}}
+\just\equiv{\textcolor{blue}{in.out = id; Aplicando as definições em Haskell já determinadas}}
 %
-g\_eval\_exp a = [eliminaX,[id,<[binOpAux.\pi1,unOpAux.\pi1],[\pi2,\pi2]>]
+optmize\_eval\ a = (gopt\ a).recExpAr(cataExpAr (gopt\ a)).recExpAr(anaExpAr clean).clean
 \end{eqnarray*}
 
 
+\vspace{1cm}
+
+De seguida definimos os diagrama de cataExpAr(gopt\ a) e de anaExpAr(clean) de forma a obter o de\textit{optmize\_eval}:
+
+\vspace{1cm}
+
+\xymatrixcolsep{2pc}\xymatrixrowsep{6pc}
+\centerline{\xymatrix{
+    ExpAr\ a
+    			\ar[d]_-{\ensuremath{\Varid{anaExpAr}\;(\Varid{clean})}}
+                \ar@/^2pc/ [rr]^{\ensuremath{\Varid{clean}}} & 
+&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a))) 
+				\ar[d]^{\ensuremath{\Varid{recExpAr}\;(\Varid{anaExpAr}\;(\Varid{clean}))}}\\
+    \ensuremath{\Conid{ExpAr}\;\Varid{a}} &  & () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))
+    			\ar[ll]^-{\ensuremath{\Varid{inExpAr}}}
+}}
+
+\vspace{1cm}
+
+\xymatrixcolsep{2pc}\xymatrixrowsep{6pc}
+\centerline{\xymatrix{
+	ExpAr\ a
+   				\ar[d]_-{\ensuremath{\cata{\Varid{gopt}\;\Varid{a}}}}
+                \ar@/^2pc/ [rr]^-{\ensuremath{\Varid{outExpAr}}} & \qquad \cong
+&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  			\ar[d]^{\ensuremath{\Varid{recExpAr}\;\cata{\Varid{gopt}\;\Varid{a}}}}
+\\
+    \ensuremath{\Conid{Eq}\;\Varid{a}} &  & () + (a + ((BinOp \times (Eq\ a \times Eq\ a)) + (UnOp \times Eq\ a)))
+    			\ar[ll]^-{\ensuremath{\Varid{gopt}\;\Varid{a}}}
+}}
+
+\vspace{1cm}
 
 Solução:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{23}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{24}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{outExpAr}\mathbin{::}\Conid{ExpAr}\;\Varid{a}\to ()+(\Varid{a}+((\Conid{BinOp},(\Conid{ExpAr}\;\Varid{a},\Conid{ExpAr}\;\Varid{a}))+(\Conid{UnOp},\Conid{ExpAr}\;\Varid{a}))){}\<[E]%
-\\
 \>[B]{}\Varid{outExpAr}\;\Conid{X}\mathrel{=}i_1\;(){}\<[E]%
 \\
 \>[B]{}\Varid{outExpAr}\;(\Conid{N}\;\Varid{a})\mathrel{=}i_2\;(i_1\;\Varid{a}){}\<[E]%
 \\
-\>[B]{}\Varid{outExpAr}\;(\Conid{Bin}\;\Varid{op}\;\Varid{a}\;\Varid{b}){}\<[24]%
-\>[24]{}\mathrel{=}i_2\;(i_2\;(i_1\;(\Varid{op},(\Varid{a},\Varid{b})))){}\<[E]%
+\>[B]{}\Varid{outExpAr}\;(\Conid{Bin}\;\Varid{op}\;\Varid{a}\;\Varid{b})\mathrel{=}i_2\;(i_2\;(i_1\;(\Varid{op},(\Varid{a},\Varid{b})))){}\<[E]%
 \\
 \>[B]{}\Varid{outExpAr}\;(\Conid{Un}\;\Varid{op}\;\Varid{a})\mathrel{=}i_2\;(i_2\;(i_2\;(\Varid{op},\Varid{a}))){}\<[E]%
 \\
@@ -1687,32 +1746,49 @@ Solução:
 \\
 \>[B]{}\mbox{\onelinecomment }{}\<[E]%
 \\
-\>[B]{}\Varid{g\char95 eval\char95 exp}\;\Varid{a}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{g\char95 eval\char95 exp}\;\Varid{a}\mathrel{=}\alt{\Varid{calculaX}\;\Varid{a}}{\alt{\Varid{id}}{\alt{\Varid{binOpAux}}{\Varid{unOpAux}}}}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{calculaX}\;\Varid{a}\;()\mathrel{=}\Varid{a}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{binOpAux}\;(\Conid{Sum},(\Varid{a},\Varid{b}))\mathrel{=}(\mathbin{+})\;\Varid{a}\;\Varid{b}{}\<[E]%
+\\
+\>[B]{}\Varid{binOpAux}\;(\Conid{Product},(\Varid{a},\Varid{b}))\mathrel{=}(\mathbin{*})\;\Varid{a}\;\Varid{b}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{unOpAux}\;(\Conid{Negate},\Varid{a})\mathrel{=}\mathbin{-}\Varid{a}{}\<[E]%
+\\
+\>[B]{}\Varid{unOpAux}\;(\Conid{E},\Varid{a})\mathrel{=}(\Varid{expd}\;\Varid{a}){}\<[E]%
 \\
 \>[B]{}\mbox{\onelinecomment }{}\<[E]%
 \\
-\>[B]{}\Varid{binOpAux}\;\Conid{Sum}\;\Varid{a}\;\Varid{b}\mathrel{=}(\mathbin{+})\;\Varid{a}\;\Varid{b}{}\<[E]%
+\>[B]{}\Varid{clean}\;\Conid{X}\mathrel{=}i_1\;(){}\<[E]%
 \\
-\>[B]{}\Varid{binOpAux}\;\Conid{Product}\;\Varid{a}\;\Varid{b}{}\<[23]%
-\>[23]{}\mathrel{=}(\mathbin{*})\;\Varid{a}\;\Varid{b}{}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{N}\;\Varid{a})\mathrel{=}i_2\;(i_1\;\Varid{a}){}\<[E]%
 \\
-\>[B]{}\mbox{\onelinecomment }{}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Conid{Sum}\;(\Conid{N}\;\mathrm{0})\;\Varid{a})\mathrel{=}\Varid{clean}\;\Varid{a}{}\<[E]%
 \\
-\>[B]{}\Varid{unOpAux}\;\Conid{Negate}\;\Varid{a}\mathrel{=}\mathbin{-}\Varid{a}{}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Conid{Sum}\;\Varid{a}\;(\Conid{N}\;\mathrm{0}))\mathrel{=}\Varid{clean}\;\Varid{a}{}\<[E]%
 \\
-\>[B]{}\Varid{unOpAux}\;\Conid{E}\;\Varid{a}\mathrel{=}\Varid{a}{}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Conid{Product}\;(\Conid{N}\;\mathrm{1})\;\Varid{a})\mathrel{=}\Varid{clean}\;\Varid{a}{}\<[E]%
 \\
-\>[B]{}\mbox{\onelinecomment }{}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Conid{Product}\;\Varid{a}\;(\Conid{N}\;\mathrm{1}))\mathrel{=}\Varid{clean}\;\Varid{a}{}\<[E]%
 \\
-\>[B]{}\Varid{eliminaX}\;()\mathrel{=}\mathrm{0}{}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Varid{op}\;\Varid{a}\;\Varid{b})\mathrel{=}i_2\;(i_2\;(i_1\;(\Varid{op},(\Varid{a},\Varid{b})))){}\<[E]%
 \\
-\>[B]{}\mbox{\onelinecomment }{}\<[E]%
-\\
-\>[B]{}\Varid{clean}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{Un}\;\Varid{op}\;\Varid{a})\mathrel{=}i_2\;(i_2\;(i_2\;(\Varid{op},\Varid{a}))){}\<[E]%
 \\
 \>[B]{}\mbox{\onelinecomment }{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{gopt}\;\Varid{a}\mathrel{=}\alt{\Conid{True}}{\alt{\Conid{True}}{\alt{\Varid{goptAux}}{\Conid{True}}}}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{goptAux}\;(\Conid{Sum},(\mathrm{0},\Varid{a}))\mathrel{=}\Conid{True}{}\<[E]%
 \\
-\>[B]{}\Varid{gopt}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{goptAux}\;(\Conid{Sum},(\Varid{a},\mathrm{0}))\mathrel{=}\Conid{True}{}\<[E]%
+\\
+\>[B]{}\Varid{goptAux}\;(\Conid{Product},(\mathrm{1},\Varid{a}))\mathrel{=}\Conid{True}{}\<[E]%
+\\
+\>[B]{}\Varid{goptAux}\;(\Conid{Product},(\Varid{a},\mathrm{1}))\mathrel{=}\Conid{True}{}\<[E]%
+\\
+\>[B]{}\Varid{goptAux}\;(\Varid{op},(\Varid{a},\Varid{b}))\mathrel{=}\Conid{False}{}\<[E]%
 \\
 \>[B]{}\mbox{\onelinecomment }{}\<[E]%
 \ColumnHook
