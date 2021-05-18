@@ -1104,7 +1104,9 @@ eval\_exp\ a = (\ g\_eval\_exp\ a\ )\ .\ recExpAr\ (\ cataExprAr\ (\ g\_eval\_ex
 \end{eqnarray*}
 
 \vspace{1cm}
+
 Definindo o diagrama de \textit{eval\_exp},\ podemos obter a expressão pretendida \textit{g\_eval\_exp}.
+
 \vspace{1cm}
 
 \xymatrixcolsep{2pc}\xymatrixrowsep{6pc}
@@ -1118,17 +1120,17 @@ Definindo o diagrama de \textit{eval\_exp},\ podemos obter a expressão pretendi
 
 \vspace{3cm}
 
-Neste caso, percorremos todas as expressões, de modo a determinar o valor de cada uma, aplicando posteriormente a cada par de valores a operaçõa determinada pelo \textit{BinOp}, emparelhando inicialmente, com cada par de expressões. Ou seja, o gene de \textit{g\_eval\_exp} pode ser representado pelo seguinte diagrama:
+Neste caso, percorremos todas as expressões, de modo a determinar o valor de cada uma, aplicando posteriormente a cada par de valores a operaçõa determinada pelo \textit{BinOp}, emparelhando inicialmente, com cada par de expressões. Ou seja, o gene de \textit{eval\_exp} pode ser representado pelo seguinte diagrama:
 
 \vspace{1cm}
 
-\xymatrixcolsep{2pc}\xymatrixrowsep{2pc}
+\xymatrixcolsep{5pc}\xymatrixrowsep{3pc}
 \centerline
 {\xymatrix{
     () + (a + (BinOp \times (a \times a) + (UnOp \times a))) 
     \ar[d]_{(calculaX\ a )+ (id + binOpAux + unOpAux)} \\
     a + (a + a + a)
-    \ar [d]_{[id ,[id , [id,id]]]} \\
+    \ar [d]_{[\ id ,[\ id , [\ id,id\ ]\ ]\ ]} \\
     a
   } 
 }
@@ -1142,8 +1144,8 @@ A função \textit{unOpAux} é a função que dada um \textit{Negate} ou um \tex
 
 \begin{eqnarray}
 \start
-g\_eval\_exp\ a =[\ id ,[\ id , [id,id]\ ]\ ]\ .\ (calculaX\ a)\ + (id + binOpAux + unOpAux)) 
-%\
+g\_eval\_exp\ a =[\ id ,[\ id , [id,id]\ ]\ ]\ .\ ((calculaX\ a)\ + (id + binOpAux + unOpAux)) 
+%\)
 \just\equiv{\textcolor{blue}{Absorção-+\ (22) ; Natural-id (1)}}
 %
 g\_eval\_exp\ a = [calculaX\ a, [id, [binOpAux,unOpAux]\ ]\ ]
@@ -1152,7 +1154,12 @@ g\_eval\_exp\ a = [calculaX\ a, [id, [binOpAux,unOpAux]\ ]\ ]
 \vspace{1cm}
 
 \subsubsection*{clean e gopt}%-------------------------------------------------
+\vspace{1cm}
+
 Com o objetivo de otimizar o cálculo do valor de uma expressão Aritmética, tirando proveito dos elementos absorventes das operações, recorremos ao uso do hilomorfismo de \textit{ExprAr}.
+
+\vspace{1cm}
+
 \begin{eqnarray*}
 \start
 optmize\_eval\ a = hyloExpAr\ (\ gopt\ a\ )\ clean
@@ -1171,14 +1178,14 @@ optmize\_eval\ a = (gopt\ a).recExpAr(cataExpAr (gopt\ a)).recExpAr(anaExpAr cle
 \end{eqnarray*}
 
 
-\vspace{1cm}
+\vspace{4cm}
 
-De seguida definimos os diagrama de cataExpAr(gopt\ a) e de anaExpAr(clean) de forma a obter o de\textit{optmize\_eval}:
+De seguida definimos os diagramas de \textit{cataExpAr(gopt\ a)} e de \textit{anaExpAr(clean)} de forma a obter os genes \textit{clean} e \textit{gopt a}:
 
-\vspace{1cm}
+\vspace{0.5cm}
 
-\xymatrixcolsep{2pc}\xymatrixrowsep{6pc}
-\centerline{\xymatrix{
+\xymatrixcolsep{2pc}\xymatrixrowsep{3pc}
+{\xymatrix{
     ExpAr\ a
     			\ar[d]_-{|anaExpAr (clean)|}
                 \ar@@/^2pc/ [rr]^{|clean|} & 
@@ -1190,7 +1197,7 @@ De seguida definimos os diagrama de cataExpAr(gopt\ a) e de anaExpAr(clean) de f
 
 \vspace{1cm}
 
-\xymatrixcolsep{2pc}\xymatrixrowsep{6pc}
+\xymatrixcolsep{0.5pc}\xymatrixrowsep{3pc}
 \centerline{\xymatrix{
 	ExpAr\ a
    				\ar[d]_-{|cataNat (gopt a)|}
@@ -1201,7 +1208,42 @@ De seguida definimos os diagrama de cataExpAr(gopt\ a) e de anaExpAr(clean) de f
     			\ar[ll]^-{|gopt a|}
 }}
 
-\vspace{1cm}
+\vspace{1.5cm}
+
+Deste modo chegamos às expressões dos genes \textit{clean} e \textit{gopt a}, presentes na area Soluções desta secção. Estes têm o propósito de eliminar os as somas ou os produtos onde se possa apliacar as propriedades absorventes detas, de forma a otimizar o calculo das expressões aritméticas.
+\vspace{1.5cm}
+
+\subsubsection*{sd\_gen e ad\_gen}%-------------------------------------------------
+
+\begin{eqnarray*}
+\start
+sd = \pi2 .\ cataExpAr\ sd\_gen
+%
+\just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ cataExpAr}}
+%
+sd = \pi2 .\  sd\_gen\ .\ recExpAr\ (\ cataExprAr\ sd\_gen\ )\ .\ outExprAr
+%
+\end{eqnarray*}
+\vspace{0.5cm}
+
+\textit{sd\_gen} é o gene da função \textit{ad} que calcula a derivada de uma função. O gene tem como resultado (ExpAr a,ExpAr a), sendo o primeiro elemento do par a expressão que pretendemos derivar e o segundo a sua derivada.
+
+\begin{eqnarray*}
+\start
+ad = \pi2 .\ cataExpAr\ (\ ad\_gen\ v\ )
+%
+\just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ cataExpAr}}
+%
+ad = \pi2 .\  (\ ad\_gen\ v\ ) .\ recExpAr\ (\ cataExprAr\ (\ ad\_gen\ v\ ) )\ .\ outExprAr
+%
+\end{eqnarray*}
+\vspace{0.5cm}
+
+\textit{ad\_gen} é o gene da função \textit{ad} que calcula a derivada num ponto de uma função. O gene tem como resultado (a,a), sendo o primeiro elemento do par a solução da funçao no ponto e o segundo a derivad no mesmo.
+As soluções dos dois encontram-se abaixo, na área soluções.
+
+
+\vspace{0.5cm}
 
 Solução:
 \begin{code}
@@ -1246,11 +1288,34 @@ goptAux (op,(a,b)) = binOpAux (op,(a,b))
 \begin{code}
 sd_gen :: Floating a =>
     Either () (Either a (Either (BinOp, ((ExpAr a, ExpAr a), (ExpAr a, ExpAr a))) (UnOp, (ExpAr a, ExpAr a)))) -> (ExpAr a, ExpAr a)
-sd_gen = undefined
+
+sd_gen = either (sdAuxX) (either sdAuxN (either sdAuxB sdAuxU))
+
+sdAuxX () = (X,N 1)
+
+sdAuxN a = (N a,N 0)
+
+sdAuxB (Sum,((a,b),(c,d))) = (Bin Sum a c, Bin Sum b d)
+sdAuxB (Product,((a,b),(c,d))) = (Bin Product a c, Bin Sum (Bin Product a d) (Bin Product c b))
+
+sdAuxU (Negate,(a,b)) = (a, Un Negate b)
+sdAuxU (E,(a,b)) = (Un E a, Bin Product (Un E a) b)
+
 \end{code}
 
 \begin{code}
-ad_gen = undefined
+ad_gen v = either (adAuxX v) (either adAuxN (either adAuxB adAuxU))
+
+adAuxX v ()  = (v,v)
+
+adAuxN a = (a,0)
+
+adAuxB (Sum,((a,b),(c,d))) = ((+) a c,(+) b d)
+adAuxB (Product,((a,b),(c,d))) = ((*) a c, (+) ((*) a d) ((*) c b))
+
+adAuxU (Negate,(a,b)) = (a, -b)
+adAuxU (E,(a,b)) = (expd a, (*) (expd a) b)
+
 \end{code}
 
 \subsection*{Problema 2}
