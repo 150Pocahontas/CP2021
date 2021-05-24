@@ -1764,7 +1764,7 @@ ad = \pi2 .\  (\ ad\_gen\ v\ ) .\ recExpAr\ (\ cataExprAr\ (\ ad\_gen\ v\ ) )\ .
 \end{eqnarray*}
 \vspace{0.5cm}
 
-\textit{ad\_gen} é o gene da função \textit{ad} que calcula a derivada num ponto de uma função. O gene tem como resultado (a,a), sendo o primeiro elemento do par a solução da funçao no ponto e o segundo a derivad no mesmo.
+\textit{ad\_gen} é o gene da função \textit{ad} que calcula a derivada num ponto de uma função. O gene tem como resultado (a,a), sendo o primeiro elemento do par a solução da funçao no ponto e o segundo a derivada no mesmo.
 As soluções dos dois encontram-se abaixo, na área soluções.
 
 
@@ -1847,7 +1847,7 @@ Solução:
 \\[\blanklineskip]%
 \>[B]{}\Varid{sd\char95 gen}\mathrel{=}\alt{\Varid{sdAuxX}}{\alt{\Varid{sdAuxN}}{\alt{\Varid{sdAuxB}}{\Varid{sdAuxU}}}}{}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{sdAuxX}\;()\mathrel{=}(\Conid{X},\Conid{N}\;\mathrm{1}){}\<[E]%
+\>[B]{}\Varid{sdAuxX}\;()\mathrel{=}(\Conid{X},(\Conid{N}\;\mathrm{1})){}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{sdAuxN}\;\Varid{a}\mathrel{=}(\Conid{N}\;\Varid{a},\Conid{N}\;\mathrm{0}){}\<[E]%
 \\[\blanklineskip]%
@@ -1881,17 +1881,54 @@ Solução:
 \>[B]{}\Varid{adAuxU}\;(\Conid{E},(\Varid{a},\Varid{b}))\mathrel{=}(\Varid{expd}\;\Varid{a},(\mathbin{*})\;(\Varid{expd}\;\Varid{a})\;\Varid{b}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
+\pagebreak
 
 \subsection*{Problema 2}
-Definir
+
+\begin{eqnarray}
+  C_n = \frac{(2n)!}{(n+1)! (n!) }
+  \label{eq:cat}
+\end{eqnarray}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{f}\;\mathrm{0}\mathrel{=}\mathrm{1}{}\<[E]%
+\\
+\>[B]{}\Varid{f}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\frac{(\mathrm{2}\;(\Varid{n}\mathbin{+}\mathrm{1}))\mathbin{!}}{((\Varid{n}\mathbin{+}\mathrm{1})\mathbin{+}\mathrm{1})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{2})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{2})\;(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\;(\Varid{n}\mathbin{+}\mathrm{1})\;(\Varid{n})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{\mathrm{2}\;(\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\;(\Varid{n}\mathbin{+}\mathrm{1})\;(\Varid{n})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}{}\<[E]%
+\\
+\>[B]{}\hsindent{9}{}\<[9]%
+\>[9]{}\mathrel{=}\frac{\mathrm{2}\;(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\;(\Varid{n})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}(\Varid{n})\mathbin{!}}\comp \frac{\mathrm{4}\;\Varid{n}\mathbin{+}\mathrm{2}}{\Varid{n}\mathbin{+}\mathrm{2}}\mathrel{=}\Varid{f}\;\Varid{n}\comp \frac{\Varid{k}\;\Varid{n}}{\Varid{s}\;\Varid{n}}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{loop}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{k}\;\Varid{n}\mathrel{=}\mathrm{4}\;\Varid{n}\mathbin{+}\mathrm{2}{}\<[E]%
 \\
-\>[B]{}\Varid{inic}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{k}\;\mathrm{0}\mathrel{=}\mathrm{1}{}\<[E]%
 \\
-\>[B]{}\Varid{prj}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{k}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}(\mathrm{4}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{+}\mathrm{2})\mathrel{=}\mathrm{4}\;\Varid{n}\mathbin{+}\mathrm{6}\mathrel{=}\Varid{k}\;\Varid{n}\mathbin{+}\mathrm{4}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{s}\;\Varid{n}\mathrel{=}\Varid{n}\mathbin{+}\mathrm{2}{}\<[E]%
+\\
+\>[B]{}\Varid{s}\;\mathrm{0}\mathrel{=}\mathrm{2}{}\<[E]%
+\\
+\>[B]{}\Varid{s}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{n}\mathbin{+}\mathrm{1}\mathbin{+}\mathrm{2}\mathrel{=}\Varid{s}\;\Varid{n}\mathbin{+}\mathrm{1}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Solução:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{loop}\;(\Varid{f},\Varid{k},\Varid{s})\mathrel{=}(\Varid{f}\mathbin{+}\Varid{k}\div \Varid{s},\Varid{k}\mathbin{+}\mathrm{4},\Varid{s}\mathbin{+}\mathrm{1}){}\<[E]%
+\\
+\>[B]{}\Varid{inic}\;(\Varid{f},\Varid{k})\mathrel{=}(\mathrm{1},\mathrm{2},\mathrm{2}){}\<[E]%
+\\
+\>[B]{}\Varid{prj}\mathrel{=}\p1{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 por forma a que

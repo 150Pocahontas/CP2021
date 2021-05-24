@@ -1239,7 +1239,7 @@ ad = \pi2 .\  (\ ad\_gen\ v\ ) .\ recExpAr\ (\ cataExprAr\ (\ ad\_gen\ v\ ) )\ .
 \end{eqnarray*}
 \vspace{0.5cm}
 
-\textit{ad\_gen} é o gene da função \textit{ad} que calcula a derivada num ponto de uma função. O gene tem como resultado (a,a), sendo o primeiro elemento do par a solução da funçao no ponto e o segundo a derivad no mesmo.
+\textit{ad\_gen} é o gene da função \textit{ad} que calcula a derivada num ponto de uma função. O gene tem como resultado (a,a), sendo o primeiro elemento do par a solução da funçao no ponto e o segundo a derivada no mesmo.
 As soluções dos dois encontram-se abaixo, na área soluções.
 
 
@@ -1291,7 +1291,7 @@ sd_gen :: Floating a =>
 
 sd_gen = either (sdAuxX) (either sdAuxN (either sdAuxB sdAuxU))
 
-sdAuxX () = (X,N 1)
+sdAuxX () = (X,(N 1))
 
 sdAuxN a = (N a,N 0)
 
@@ -1317,13 +1317,36 @@ adAuxU (Negate,(a,b)) = (a, -b)
 adAuxU (E,(a,b)) = (expd a, (*) (expd a) b)
 
 \end{code}
+\pagebreak
 
 \subsection*{Problema 2}
-Definir
+
+\begin{eqnarray}
+  C_n = \frac{(2n)!}{(n+1)! (n!) }
+  \label{eq:cat}
+\end{eqnarray}
+
+\begin{spec}
+f 0 = 1
+f (n+1) = frac ((2(n+1))!) (((n+1)+1)! (n+1)!) = frac ((2n+2)!) ((n+2)! (n+1)!) = frac ((2n+2)(2n+1)(2n)!) ((n+2)(n+1)(n)! (n+1)!) = frac (2(n+1)(2n+1)(2n)!) ((n+2)(n+1)(n)! (n+1)!) =
+        = frac (2(2n+1)(2n)!) ((n+2)(n)! (n+1)!) = frac ((2n)!) ((n+1)!(n)!) . frac (4n+2) (n+2) = f n . frac (k n) (s n)
+\end{spec}
+
+\begin{spec}
+k n = 4n+2
+k 0 = 1
+k (n+1) = (4(n+1)+2) = 4n+6 = k n + 4
+
+s n = n+2
+s 0 = 2
+s (n+1) = n+1+2 = s n + 1
+\end{spec}
+
+Solução:
 \begin{code}
-loop = undefined
-inic = undefined
-prj = undefined
+loop (f,k,s) = (f+(div k s),k+4,s+1)
+inic = (1,2,2)
+prj (f,k,s) = f
 \end{code}
 por forma a que
 \begin{code}
