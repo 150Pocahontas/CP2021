@@ -1283,15 +1283,13 @@ goptAux (Product,(1,a)) = a
 goptAux (Product,(a,1)) = a
 goptAux (op,(a,b)) = binOpAux (op,(a,b))
 --
-\end{code}
 
-\begin{code}
 sd_gen :: Floating a =>
     Either () (Either a (Either (BinOp, ((ExpAr a, ExpAr a), (ExpAr a, ExpAr a))) (UnOp, (ExpAr a, ExpAr a)))) -> (ExpAr a, ExpAr a)
 
 sd_gen = either (sdAuxX) (either sdAuxN (either sdAuxB sdAuxU))
 
-sdAuxX () = (X,(N 1))
+sdAuxX () = (X,N 1)
 
 sdAuxN a = (N a,N 0)
 
@@ -1358,27 +1356,74 @@ Apresentar de seguida a justificação da solução encontrada.
 
 \subsection*{Problema 3}
 
+\xymatrixcolsep{0.5pc}\xymatrixrowsep{3pc}
+\centerline{\xymatrix{
+  NPoint
+          \ar[d]_-{|calcLine|}
+                \ar [rr]^-{|outList|} & \qquad 
+&   () + (\Q \times  NPoint)      
+          \ar[d]^{|recList(cata h|}
+\\
+    |((OverTime NPoint) ^ NPoint)| &  & |() + (Q >< (OverTime NPoint ^ NPoint))|
+          \ar[ll]^-{|h|}
+}}
+\vspace{0.3cm}
+Analisando o tipo da função calcLine podemos concluir que o nosso objetivo final deve ser retornar uma função que dado Resolvemos trabalhar os dois pontos como elementos separados e não um par, podendo saber qual elemento à cabeça do NPoint, o que nos permite avançar.
+\vspace{0.5cm}
+Feita alguma pesquisa concluimos que a interpolação dada entre dois pontos pode é a soma da multiplicação de todas as coordenadas do primeiro ponto por (1-t) com a do segundo por t.
+
+
+
+Retorna 2 pontos?
+Solução:
+retornar uma função 
 \begin{code}
 calcLine :: NPoint -> (NPoint -> OverTime NPoint)
 calcLine = cataList h where
-   h = undefined
+  h = either nil linear
+  linear (q,[]) (y:[]) = ((linear1d q y):[]) []
+  linear (q,x:xs) (y:ys) = ((linear1d q y):xs) ys
+
 
 deCasteljau :: [NPoint] -> OverTime NPoint
 deCasteljau = hyloAlgForm alg coalg where
    coalg = undefined
    alg = undefined
 
-hyloAlgForm = undefined
+hyloAlgForm g h = g.recList(cataList g).recList(anaList h).h
 \end{code}
 
 \subsection*{Problema 4}
 
+\begin{eqnarray*}
+\start
+avg\_aux\ a = \cata{[b, q])}
+%
+\just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ avg\_aux}}
+%
+\split{avg}{length} \ = \cata{[ b, q]}
+%
+\just\equiv{\textcolor{blue}{Fokkinga (52)}}
+%
+      |lcbr(
+     avg . in = b . F(split avg length)
+  )(
+    length . in = q . F(split avg length)
+    )|
+%
+\just\equiv{\textcolor{blue}{in.out=id (2><)}}
+%
+      |lcbr(
+     avg = b . F(split avg length) . out
+  )(
+    length = q . F(split avg length) .out
+    )|
+\end{eqnarray*}
+
 Solução para listas não vazias:
 \begin{code}
 avg = p1.avg_aux
-\end{code}
 
-\begin{code}
 avg_aux = undefined
 \end{code}
 Solução para árvores de tipo \LTree:
@@ -1388,9 +1433,129 @@ avgLTree = p1.cataLTree gene where
 \end{code}
 
 \subsection*{Problema 5}
-Inserir em baixo o código \Fsharp\ desenvolvido, entre \verb!\begin{verbatim}! e \verb!\end{verbatim}!:
+Encontra-se em baixo o código \Fsharp\ desenvolvido:
+
 
 \begin{verbatim}
+// (1) Datatype definition -----------------------------------------------------
+
+type BTree<'a> = Empty | Node of a * of BTree<'a> * BTree<'a>
+
+let inBtree x = either (const Empty) Node x
+
+let outBTree x =
+     match x with
+     | Empty  -> left ()
+     | Node (a,t1,t2) -> Rigth (a,t1,t2)
+
+// (2) Ana + cata + hylo -------------------------------------------------------
+
+let baseBTree g f = g -|- (g >< (f >< f))
+
+let recBTree f = baseBTree id f 
+
+let rec cataBTree g = g << (recBTree (cataBTree g)) << outBTree
+
+let rec anaBTree g = inBTree << (recBTree (anaBTree g) ) << g
+
+let hyloBTree h g = cataBTree h << anaBTree g
+
+// (3) Map ---------------------------------------------------------------------
+
+//instance Functor BTree
+//         where fmap f = cataBTree ( inBTree . baseBTree f id )
+let fmap f = cataBTree ( inBTree << baseBTree f id )
+
+// (4) Examples ----------------------------------------------------------------
+
+// (4.1) Inversion (mirror) ----------------------------------------------------
+
+let invBTree x = cataBTree (inLTree << (id -|- id >< swap)) x
+
+(* Recall the pointwise version:
+invBTree () = Empty
+invBTree (Node (a,(b,c))) = Node (a, (invBTree c,invBTree b))
+*)
+
+// (4.2) Counting --------------------------------------------------------------
+
+let countBTree x = cataBTree (either (const 0) (succ . (uncurry (+)) . p2)) x
+
+// (4.3) Serialization ---------------------------------------------------------
+let inordt x = cataBTree inord x
+
+let inord x  = either nil join x
+    where join (x,(l,r)) = l @ [x] @ r
+
+let preordt x = cataBTree preord 
+
+let preord = (either nil f) 
+      where  f(x,(l,r))= x: l @ r
+
+postordt = cataBTree (either nil f) 
+           where  f(x,(l,r))=l @ r @ [x]
+
+// (4.4) Quicksort -------------------------------------------------------------
+
+let qSort = hyloBTree inord qsep
+
+let qsep []    = Left ()
+let qsep (h:t) = Right (h,(s,l)) 
+      where (s,l) = part (<h) t
+
+let part p []                = ([],[])
+let part p (h:t) | p h       = let (s,l) = part p t in (h:s,l)
+                 | otherwise = let (s,l) = part p t in (s,h:l)
+
+// (4.5) Traces ----------------------------------------------------------------
+
+let traces x = cataBTree (either (const [[]]) tunion) x
+
+let tunion (a,(l,r)) = union (map (a:) l) (map (a:) r) 
+
+// (4.6) Towers of Hanoi -------------------------------------------------------
+
+let hanoi x = hyloBTree present strategy x
+
+let present x = inord x 
+
+strategy (d,0) = Left ()
+strategy (d,n+1) = Right ((n,d),((not d,n),(not d,n)))
+
+-- (5) Depth and balancing (using mutual recursion) --------------------------
+
+balBTree = p1.baldepth
+
+depthBTree = p2.baldepth
+
+baldepth = cataBTree g where
+     g = either (const(True,1)) (h.(id><f))
+     h(a,((b1,b2),(d1,d2))) = (b1 && b2 && abs(d1-d2)<=1,1+max d1 d2)
+     f((b1,d1),(b2,d2)) = ((b1,b2),(d1,d2))
+
+// (6) Going polytipic -------------------------------------------------------
+
+let tnat f = either (const mempty) (theta << (f >< theta))
+      where theta = uncurry mappend
+
+
+let monBTree f = cataBTree (tnat f)
+
+// alternative to (4.2) serialization ----------------------------------------
+
+let preordt' = monBTree singl
+
+// alternative to (4.1) counting ---------------------------------------------
+
+countBTree' = monBTree (const (Sum 1))
+
+// (7) Zipper ----------------------------------------------------------------
+
+let plug [] t = t
+let plug ((Dr False a l):z) t = Node (a,(plug z t,l))
+let plug ((Dr True  a r):z) t = Node (a,(r,plug z t))
+
+
 \end{verbatim}
 
 %----------------- Fim do anexo com soluções dos alunos ------------------------%

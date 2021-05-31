@@ -1773,6 +1773,7 @@ As soluções dos dois encontram-se abaixo, na área soluções.
 Solução:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{outExpAr}\;\Conid{X}\mathrel{=}i_1\;(){}\<[E]%
 \\
@@ -1833,13 +1834,7 @@ Solução:
 \>[B]{}\Varid{goptAux}\;(\Varid{op},(\Varid{a},\Varid{b}))\mathrel{=}\Varid{binOpAux}\;(\Varid{op},(\Varid{a},\Varid{b})){}\<[E]%
 \\
 \>[B]{}\mbox{\onelinecomment }{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\\[\blanklineskip]%
 \>[B]{}\Varid{sd\char95 gen}\mathbin{::}\Conid{Floating}\;\Varid{a}\Rightarrow {}\<[E]%
 \\
 \>[B]{}\hsindent{5}{}\<[5]%
@@ -1847,7 +1842,7 @@ Solução:
 \\[\blanklineskip]%
 \>[B]{}\Varid{sd\char95 gen}\mathrel{=}\alt{\Varid{sdAuxX}}{\alt{\Varid{sdAuxN}}{\alt{\Varid{sdAuxB}}{\Varid{sdAuxU}}}}{}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{sdAuxX}\;()\mathrel{=}(\Conid{X},(\Conid{N}\;\mathrm{1})){}\<[E]%
+\>[B]{}\Varid{sdAuxX}\;()\mathrel{=}(\Conid{X},\Conid{N}\;\mathrm{1}){}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{sdAuxN}\;\Varid{a}\mathrel{=}(\Conid{N}\;\Varid{a},\Conid{N}\;\mathrm{0}){}\<[E]%
 \\[\blanklineskip]%
@@ -1926,9 +1921,9 @@ Solução:
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{loop}\;(\Varid{f},\Varid{k},\Varid{s})\mathrel{=}(\Varid{f}\mathbin{+}\Varid{k}\div \Varid{s},\Varid{k}\mathbin{+}\mathrm{4},\Varid{s}\mathbin{+}\mathrm{1}){}\<[E]%
 \\
-\>[B]{}\Varid{inic}\;(\Varid{f},\Varid{k})\mathrel{=}(\mathrm{1},\mathrm{2},\mathrm{2}){}\<[E]%
+\>[B]{}\Varid{inic}\mathrel{=}(\mathrm{1},\mathrm{2},\mathrm{2}){}\<[E]%
 \\
-\>[B]{}\Varid{prj}\mathrel{=}\p1{}\<[E]%
+\>[B]{}\Varid{prj}\;(\Varid{f},\Varid{k},\Varid{s})\mathrel{=}\Varid{f}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 por forma a que
@@ -1944,16 +1939,40 @@ Apresentar de seguida a justificação da solução encontrada.
 
 \subsection*{Problema 3}
 
+\xymatrixcolsep{0.5pc}\xymatrixrowsep{3pc}
+\centerline{\xymatrix{
+  NPoint
+          \ar[d]_-{\ensuremath{\Varid{calcLine}}}
+                \ar [rr]^-{\ensuremath{\Varid{outList}}} & \qquad 
+&   () + (\Q \times  NPoint)      
+          \ar[d]^{\ensuremath{\Varid{recList}\;\cata{\Varid{h}}}}
+\\
+    \ensuremath{((\Conid{OverTime}\;\Conid{NPoint})\mathbin{\uparrow}\Conid{NPoint})} &  & \ensuremath{()\mathbin{+}(\Conid{Q}\times(\Conid{OverTime}\;\Conid{NPoint}\mathbin{\uparrow}\Conid{NPoint}))}
+          \ar[ll]^-{\ensuremath{\Varid{h}}}
+}}
+\vspace{0.3cm}
+Analisando o tipo da função calcLine podemos concluir que o nosso objetivo final deve ser retornar uma função que dado um \textit{NPoint}, devolve um \textit{OverTime NPoint}. 
+Tendo a consciência que poderiamos usar a versão uncurried desta função, resolvemos trabalhar os dois pontos como elementos separados e não um par, podendo saber qual elemento à cabeça do NPoint, o que nos permite avançar.
+\vspace{0.5cm}
+
+Solução:
+
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{calcLine}\mathbin{::}\Conid{NPoint}\to (\Conid{NPoint}\to \Conid{OverTime}\;\Conid{NPoint}){}\<[E]%
 \\
 \>[B]{}\Varid{calcLine}\mathrel{=}\Varid{cataList}\;\Varid{h}\;\mathbf{where}{}\<[E]%
 \\
-\>[B]{}\hsindent{4}{}\<[4]%
-\>[4]{}\Varid{h}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{h}\mathrel{=}{}\<[8]%
+\>[8]{}\alt{\Varid{nil}}{\Varid{linear}}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{linear}\;(\Varid{x}\mathbin{:}\Varid{xs})\;(\Varid{y}\mathbin{:}\Varid{ys})\mathrel{=}(\Varid{linear1d}\;\Varid{x}\;\Varid{y})\mathbin{:}(\Varid{linear}\;\Varid{xs}\;\Varid{ys}){}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{deCasteljau}\mathbin{::}[\mskip1.5mu \Conid{NPoint}\mskip1.5mu]\to \Conid{OverTime}\;\Conid{NPoint}{}\<[E]%
 \\
@@ -1971,17 +1990,29 @@ Apresentar de seguida a justificação da solução encontrada.
 
 \subsection*{Problema 4}
 
+\begin{eqnarray*}
+\start
+avg\_aux\ a = \cata{[b, q])}
+%
+\just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ avg\_aux}}
+%
+\split{avg}{length} \ = \cata{[ b, q]}
+%
+\just\equiv{\textcolor{blue}{Fokkinga (52)}}
+%
+      \ensuremath{\begin{lcbr}\Varid{avg}\comp \mathbf{in}\mathrel{=}\Varid{b}\comp \Conid{F}\;\conj{\Varid{avg}}{\length }\\\length \comp \mathbf{in}\mathrel{=}\Varid{q}\comp \Conid{F}\;\conj{\Varid{avg}}{\length }\end{lcbr}}
+%
+\just\equiv{\textcolor{blue}{in.out=id (2><)}}
+%
+      \ensuremath{\begin{lcbr}\Varid{avg}\mathrel{=}\Varid{b}\comp \Conid{F}\;\conj{\Varid{avg}}{\length }\comp \Varid{out}\\\length \mathrel{=}\Varid{q}\comp \Conid{F}\;\conj{\Varid{avg}}{\length }\comp \Varid{out}\end{lcbr}}
+\end{eqnarray*}
+
 Solução para listas não vazias:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{avg}\mathrel{=}\p1\comp \Varid{avg\char95 aux}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\\[\blanklineskip]%
 \>[B]{}\Varid{avg\char95 aux}\mathrel{=}\bot {}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
@@ -1998,10 +2029,127 @@ Solução para árvores de tipo \LTree:
 \end{hscode}\resethooks
 
 \subsection*{Problema 5}
-Inserir em baixo o código \Fsharp\ desenvolvido, entre \text{\ttfamily \char92{}begin\char123{}verbatim\char125{}} e \text{\ttfamily \char92{}end\char123{}verbatim\char125{}}:
+Encontra-se em baixo o código \Fsharp\ desenvolvido:
+
 
 \begin{tabbing}\ttfamily
-
+~\char47{}\char47{}~\char40{}1\char41{}~Datatype~definition~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~type~BTree\char60{}\char39{}a\char62{}~\char61{}~Empty~\char124{}~Node~of~a~\char42{}~of~BTree\char60{}\char39{}a\char62{}~\char42{}~BTree\char60{}\char39{}a\char62{}\\
+\ttfamily ~\\
+\ttfamily ~let~inBtree~x~\char61{}~either~\char40{}const~Empty\char41{}~Node~x\\
+\ttfamily ~\\
+\ttfamily ~let~outBTree~x~\char61{}\\
+\ttfamily ~~~~~~match~x~with\\
+\ttfamily ~~~~~~\char124{}~Empty~~\char45{}\char62{}~left~\char40{}\char41{}\\
+\ttfamily ~~~~~~\char124{}~Node~\char40{}a\char44{}t1\char44{}t2\char41{}~\char45{}\char62{}~Rigth~\char40{}a\char44{}t1\char44{}t2\char41{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}2\char41{}~Ana~\char43{}~cata~\char43{}~hylo~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~let~baseBTree~g~f~\char61{}~g~\char45{}\char124{}\char45{}~\char40{}g~\char62{}\char60{}~\char40{}f~\char62{}\char60{}~f\char41{}\char41{}\\
+\ttfamily ~\\
+\ttfamily ~let~recBTree~f~\char61{}~baseBTree~id~f~\\
+\ttfamily ~\\
+\ttfamily ~let~rec~cataBTree~g~\char61{}~g~\char60{}\char60{}~\char40{}recBTree~\char40{}cataBTree~g\char41{}\char41{}~\char60{}\char60{}~outBTree\\
+\ttfamily ~\\
+\ttfamily ~let~rec~anaBTree~g~\char61{}~inBTree~\char60{}\char60{}~\char40{}recBTree~\char40{}anaBTree~g\char41{}~\char41{}~\char60{}\char60{}~g\\
+\ttfamily ~\\
+\ttfamily ~let~hyloBTree~h~g~\char61{}~cataBTree~h~\char60{}\char60{}~anaBTree~g\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}3\char41{}~Map~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}instance~Functor~BTree\\
+\ttfamily ~\char47{}\char47{}~~~~~~~~~where~fmap~f~\char61{}~cataBTree~\char40{}~inBTree~\char46{}~baseBTree~f~id~\char41{}\\
+\ttfamily ~let~fmap~f~\char61{}~cataBTree~\char40{}~inBTree~\char60{}\char60{}~baseBTree~f~id~\char41{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}4\char41{}~Examples~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}4\char46{}1\char41{}~Inversion~\char40{}mirror\char41{}~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~let~invBTree~x~\char61{}~cataBTree~\char40{}inLTree~\char60{}\char60{}~\char40{}id~\char45{}\char124{}\char45{}~id~\char62{}\char60{}~swap\char41{}\char41{}~x\\
+\ttfamily ~\\
+\ttfamily ~\char40{}\char42{}~Recall~the~pointwise~version\char58{}\\
+\ttfamily ~invBTree~\char40{}\char41{}~\char61{}~Empty\\
+\ttfamily ~invBTree~\char40{}Node~\char40{}a\char44{}\char40{}b\char44{}c\char41{}\char41{}\char41{}~\char61{}~Node~\char40{}a\char44{}~\char40{}invBTree~c\char44{}invBTree~b\char41{}\char41{}\\
+\ttfamily ~\char42{}\char41{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}4\char46{}2\char41{}~Counting~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~let~countBTree~x~\char61{}~cataBTree~\char40{}either~\char40{}const~0\char41{}~\char40{}succ~\char46{}~\char40{}uncurry~\char40{}\char43{}\char41{}\char41{}~\char46{}~p2\char41{}\char41{}~x\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}4\char46{}3\char41{}~Serialization~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~let~inordt~x~\char61{}~cataBTree~inord~x\\
+\ttfamily ~\\
+\ttfamily ~let~inord~x~~\char61{}~either~nil~join~x\\
+\ttfamily ~~~~~where~join~\char40{}x\char44{}\char40{}l\char44{}r\char41{}\char41{}~\char61{}~l~\char64{}~\char91{}x\char93{}~\char64{}~r\\
+\ttfamily ~\\
+\ttfamily ~let~preordt~x~\char61{}~cataBTree~preord~\\
+\ttfamily ~\\
+\ttfamily ~let~preord~\char61{}~\char40{}either~nil~f\char41{}~\\
+\ttfamily ~~~~~~~where~~f\char40{}x\char44{}\char40{}l\char44{}r\char41{}\char41{}\char61{}~x\char58{}~l~\char64{}~r\\
+\ttfamily ~\\
+\ttfamily ~postordt~\char61{}~cataBTree~\char40{}either~nil~f\char41{}~\\
+\ttfamily ~~~~~~~~~~~~where~~f\char40{}x\char44{}\char40{}l\char44{}r\char41{}\char41{}\char61{}l~\char64{}~r~\char64{}~\char91{}x\char93{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}4\char46{}4\char41{}~Quicksort~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~let~qSort~\char61{}~hyloBTree~inord~qsep\\
+\ttfamily ~\\
+\ttfamily ~let~qsep~\char91{}\char93{}~~~~\char61{}~Left~\char40{}\char41{}\\
+\ttfamily ~let~qsep~\char40{}h\char58{}t\char41{}~\char61{}~Right~\char40{}h\char44{}\char40{}s\char44{}l\char41{}\char41{}~\\
+\ttfamily ~~~~~~~where~\char40{}s\char44{}l\char41{}~\char61{}~part~\char40{}\char60{}h\char41{}~t\\
+\ttfamily ~\\
+\ttfamily ~let~part~p~\char91{}\char93{}~~~~~~~~~~~~~~~~\char61{}~\char40{}\char91{}\char93{}\char44{}\char91{}\char93{}\char41{}\\
+\ttfamily ~let~part~p~\char40{}h\char58{}t\char41{}~\char124{}~p~h~~~~~~~\char61{}~let~\char40{}s\char44{}l\char41{}~\char61{}~part~p~t~in~\char40{}h\char58{}s\char44{}l\char41{}\\
+\ttfamily ~~~~~~~~~~~~~~~~~~\char124{}~otherwise~\char61{}~let~\char40{}s\char44{}l\char41{}~\char61{}~part~p~t~in~\char40{}s\char44{}h\char58{}l\char41{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}4\char46{}5\char41{}~Traces~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~let~traces~x~\char61{}~cataBTree~\char40{}either~\char40{}const~\char91{}\char91{}\char93{}\char93{}\char41{}~tunion\char41{}~x\\
+\ttfamily ~\\
+\ttfamily ~let~tunion~\char40{}a\char44{}\char40{}l\char44{}r\char41{}\char41{}~\char61{}~union~\char40{}map~\char40{}a\char58{}\char41{}~l\char41{}~\char40{}map~\char40{}a\char58{}\char41{}~r\char41{}~\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}4\char46{}6\char41{}~Towers~of~Hanoi~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~let~hanoi~x~\char61{}~hyloBTree~present~strategy~x\\
+\ttfamily ~\\
+\ttfamily ~let~present~x~\char61{}~inord~x~\\
+\ttfamily ~\\
+\ttfamily ~strategy~\char40{}d\char44{}0\char41{}~\char61{}~Left~\char40{}\char41{}\\
+\ttfamily ~strategy~\char40{}d\char44{}n\char43{}1\char41{}~\char61{}~Right~\char40{}\char40{}n\char44{}d\char41{}\char44{}\char40{}\char40{}not~d\char44{}n\char41{}\char44{}\char40{}not~d\char44{}n\char41{}\char41{}\char41{}\\
+\ttfamily ~\\
+\ttfamily ~\char45{}\char45{}~\char40{}5\char41{}~Depth~and~balancing~\char40{}using~mutual~recursion\char41{}~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~balBTree~\char61{}~p1\char46{}baldepth\\
+\ttfamily ~\\
+\ttfamily ~depthBTree~\char61{}~p2\char46{}baldepth\\
+\ttfamily ~\\
+\ttfamily ~baldepth~\char61{}~cataBTree~g~where\\
+\ttfamily ~~~~~~g~\char61{}~either~\char40{}const\char40{}True\char44{}1\char41{}\char41{}~\char40{}h\char46{}\char40{}id\char62{}\char60{}f\char41{}\char41{}\\
+\ttfamily ~~~~~~h\char40{}a\char44{}\char40{}\char40{}b1\char44{}b2\char41{}\char44{}\char40{}d1\char44{}d2\char41{}\char41{}\char41{}~\char61{}~\char40{}b1~\char38{}\char38{}~b2~\char38{}\char38{}~abs\char40{}d1\char45{}d2\char41{}\char60{}\char61{}1\char44{}1\char43{}max~d1~d2\char41{}\\
+\ttfamily ~~~~~~f\char40{}\char40{}b1\char44{}d1\char41{}\char44{}\char40{}b2\char44{}d2\char41{}\char41{}~\char61{}~\char40{}\char40{}b1\char44{}b2\char41{}\char44{}\char40{}d1\char44{}d2\char41{}\char41{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}6\char41{}~Going~polytipic~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~let~tnat~f~\char61{}~either~\char40{}const~mempty\char41{}~\char40{}theta~\char60{}\char60{}~\char40{}f~\char62{}\char60{}~theta\char41{}\char41{}\\
+\ttfamily ~~~~~~~where~theta~\char61{}~uncurry~mappend\\
+\ttfamily ~\\
+\ttfamily ~\\
+\ttfamily ~let~monBTree~f~\char61{}~cataBTree~\char40{}tnat~f\char41{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~alternative~to~\char40{}4\char46{}2\char41{}~serialization~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~let~preordt\char39{}~\char61{}~monBTree~singl\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~alternative~to~\char40{}4\char46{}1\char41{}~counting~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~countBTree\char39{}~\char61{}~monBTree~\char40{}const~\char40{}Sum~1\char41{}\char41{}\\
+\ttfamily ~\\
+\ttfamily ~\char47{}\char47{}~\char40{}7\char41{}~Zipper~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
+\ttfamily ~\\
+\ttfamily ~let~plug~\char91{}\char93{}~t~\char61{}~t\\
+\ttfamily ~let~plug~\char40{}\char40{}Dr~False~a~l\char41{}\char58{}z\char41{}~t~\char61{}~Node~\char40{}a\char44{}\char40{}plug~z~t\char44{}l\char41{}\char41{}\\
+\ttfamily ~let~plug~\char40{}\char40{}Dr~True~~a~r\char41{}\char58{}z\char41{}~t~\char61{}~Node~\char40{}a\char44{}\char40{}r\char44{}plug~z~t\char41{}\char41{}
 \end{tabbing}
 
 %----------------- Fim do anexo com soluções dos alunos ------------------------%
