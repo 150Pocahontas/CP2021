@@ -1751,7 +1751,7 @@ sd = \pi2 .\  sd\_gen\ .\ recExpAr\ (\ cataExprAr\ sd\_gen\ )\ .\ outExprAr
 \end{eqnarray*}
 \vspace{0.5cm}
 
-\textit{sd\_gen} é o gene da função \textit{ad} que calcula a derivada de uma função. O gene tem como resultado (ExpAr a,ExpAr a), sendo o primeiro elemento do par a expressão que pretendemos derivar e o segundo a sua derivada.
+\textit{sd\_gen} é o gene da função \textit{sd} que calcula a derivada de uma função. O gene tem como resultado (ExpAr a,ExpAr a), sendo o primeiro elemento do par a expressão que pretendemos derivar e o segundo a sua derivada.
 
 \begin{eqnarray*}
 \start
@@ -1769,11 +1769,14 @@ As soluções dos dois encontram-se abaixo, na área soluções.
 
 
 \vspace{0.5cm}
+%clean (Bin op a b) = i2 (i2 (i1 (op,(a,b))))
+%clean (Un op a) = i2 (i2 (i2 (op, a)))
 
 Solução:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{21}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{outExpAr}\;\Conid{X}\mathrel{=}i_1\;(){}\<[E]%
 \\
@@ -1803,9 +1806,10 @@ Solução:
 \\
 \>[B]{}\mbox{\onelinecomment }{}\<[E]%
 \\
-\>[B]{}\Varid{clean}\;\Conid{X}\mathrel{=}i_1\;(){}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Conid{Product}\;(\Conid{N}\;\mathrm{0})\;\Varid{a})\mathrel{=}i_2\;(i_1\;\mathrm{0}){}\<[E]%
 \\
-\>[B]{}\Varid{clean}\;(\Conid{N}\;\Varid{a})\mathrel{=}i_2\;(i_1\;\Varid{a}){}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Conid{Product}\;{}\<[21]%
+\>[21]{}\Varid{a}\;(\Conid{N}\;\mathrm{0}))\mathrel{=}i_2\;(i_1\;\mathrm{0}){}\<[E]%
 \\
 \>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Conid{Sum}\;(\Conid{N}\;\mathrm{0})\;\Varid{a})\mathrel{=}\Varid{clean}\;\Varid{a}{}\<[E]%
 \\
@@ -1815,9 +1819,9 @@ Solução:
 \\
 \>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Conid{Product}\;\Varid{a}\;(\Conid{N}\;\mathrm{1}))\mathrel{=}\Varid{clean}\;\Varid{a}{}\<[E]%
 \\
-\>[B]{}\Varid{clean}\;(\Conid{Bin}\;\Varid{op}\;\Varid{a}\;\Varid{b})\mathrel{=}i_2\;(i_2\;(i_1\;(\Varid{op},(\Varid{a},\Varid{b})))){}\<[E]%
+\>[B]{}\Varid{clean}\;(\Conid{Un}\;\Conid{E}\;(\Conid{N}\;\mathrm{0}))\mathrel{=}i_2\;(i_1\;\mathrm{1}){}\<[E]%
 \\
-\>[B]{}\Varid{clean}\;(\Conid{Un}\;\Varid{op}\;\Varid{a})\mathrel{=}i_2\;(i_2\;(i_2\;(\Varid{op},\Varid{a}))){}\<[E]%
+\>[B]{}\Varid{clean}\;\Varid{a}\mathrel{=}\Varid{outExpAr}\;\Varid{a}{}\<[E]%
 \\
 \>[B]{}\mbox{\onelinecomment }{}\<[E]%
 \\[\blanklineskip]%
@@ -1831,7 +1835,7 @@ Solução:
 \\
 \>[B]{}\Varid{goptAux}\;(\Conid{Product},(\Varid{a},\mathrm{1}))\mathrel{=}\Varid{a}{}\<[E]%
 \\
-\>[B]{}\Varid{goptAux}\;(\Varid{op},(\Varid{a},\Varid{b}))\mathrel{=}\Varid{binOpAux}\;(\Varid{op},(\Varid{a},\Varid{b})){}\<[E]%
+\>[B]{}\Varid{goptAux}\;\Varid{a}\mathrel{=}\Varid{binOpAux}\;\Varid{a}{}\<[E]%
 \\
 \>[B]{}\mbox{\onelinecomment }{}\<[E]%
 \\[\blanklineskip]%
@@ -1848,9 +1852,9 @@ Solução:
 \\[\blanklineskip]%
 \>[B]{}\Varid{sdAuxB}\;(\Conid{Sum},((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d})))\mathrel{=}(\Conid{Bin}\;\Conid{Sum}\;\Varid{a}\;\Varid{c},\Conid{Bin}\;\Conid{Sum}\;\Varid{b}\;\Varid{d}){}\<[E]%
 \\
-\>[B]{}\Varid{sdAuxB}\;(\Conid{Product},((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d})))\mathrel{=}(\Conid{Bin}\;\Conid{Product}\;\Varid{a}\;\Varid{c},\Conid{Bin}\;\Conid{Sum}\;(\Conid{Bin}\;\Conid{Product}\;\Varid{a}\;\Varid{d})\;(\Conid{Bin}\;\Conid{Product}\;\Varid{c}\;\Varid{b})){}\<[E]%
+\>[B]{}\Varid{sdAuxB}\;(\Conid{Product},((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d})))\mathrel{=}(\Conid{Bin}\;\Conid{Product}\;\Varid{a}\;\Varid{c},\Conid{Bin}\;\Conid{Sum}\;(\Conid{Bin}\;\Conid{Product}\;\Varid{a}\;\Varid{d})\;(\Conid{Bin}\;\Conid{Product}\;\Varid{b}\;\Varid{c})){}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{sdAuxU}\;(\Conid{Negate},(\Varid{a},\Varid{b}))\mathrel{=}(\Varid{a},\Conid{Un}\;\Conid{Negate}\;\Varid{b}){}\<[E]%
+\>[B]{}\Varid{sdAuxU}\;(\Conid{Negate},(\Varid{a},\Varid{b}))\mathrel{=}(\Conid{Un}\;\Conid{Negate}\;\Varid{a},\Conid{Un}\;\Conid{Negate}\;\Varid{b}){}\<[E]%
 \\
 \>[B]{}\Varid{sdAuxU}\;(\Conid{E},(\Varid{a},\Varid{b}))\mathrel{=}(\Conid{Un}\;\Conid{E}\;\Varid{a},\Conid{Bin}\;\Conid{Product}\;(\Conid{Un}\;\Conid{E}\;\Varid{a})\;\Varid{b}){}\<[E]%
 \ColumnHook
@@ -1863,15 +1867,15 @@ Solução:
 \>[B]{}\Varid{ad\char95 gen}\;\Varid{v}\mathrel{=}\alt{\Varid{adAuxX}\;\Varid{v}}{\alt{\Varid{adAuxN}}{\alt{\Varid{adAuxB}}{\Varid{adAuxU}}}}{}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{adAuxX}\;\Varid{v}\;(){}\<[14]%
-\>[14]{}\mathrel{=}(\Varid{v},\Varid{v}){}\<[E]%
+\>[14]{}\mathrel{=}(\Varid{v},\mathrm{1}){}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{adAuxN}\;\Varid{a}\mathrel{=}(\Varid{a},\mathrm{0}){}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{adAuxB}\;(\Conid{Sum},((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d})))\mathrel{=}((\mathbin{+})\;\Varid{a}\;\Varid{c},(\mathbin{+})\;\Varid{b}\;\Varid{d}){}\<[E]%
 \\
-\>[B]{}\Varid{adAuxB}\;(\Conid{Product},((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d})))\mathrel{=}((\mathbin{*})\;\Varid{a}\;\Varid{c},(\mathbin{+})\;((\mathbin{*})\;\Varid{a}\;\Varid{d})\;((\mathbin{*})\;\Varid{c}\;\Varid{b})){}\<[E]%
+\>[B]{}\Varid{adAuxB}\;(\Conid{Product},((\Varid{a},\Varid{b}),(\Varid{c},\Varid{d})))\mathrel{=}((\mathbin{*})\;\Varid{a}\;\Varid{c},(\mathbin{+})\;((\mathbin{*})\;\Varid{a}\;\Varid{d})\;((\mathbin{*})\;\Varid{b}\;\Varid{c})){}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{adAuxU}\;(\Conid{Negate},(\Varid{a},\Varid{b}))\mathrel{=}(\Varid{a},\mathbin{-}\Varid{b}){}\<[E]%
+\>[B]{}\Varid{adAuxU}\;(\Conid{Negate},(\Varid{a},\Varid{b}))\mathrel{=}(\mathbin{-}\Varid{a},\mathbin{-}\Varid{b}){}\<[E]%
 \\
 \>[B]{}\Varid{adAuxU}\;(\Conid{E},(\Varid{a},\Varid{b}))\mathrel{=}(\Varid{expd}\;\Varid{a},(\mathbin{*})\;(\Varid{expd}\;\Varid{a})\;\Varid{b}){}\<[E]%
 \ColumnHook
@@ -1891,10 +1895,10 @@ Solução:
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{f}\;\mathrm{0}\mathrel{=}\mathrm{1}{}\<[E]%
 \\
-\>[B]{}\Varid{f}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\frac{(\mathrm{2}\;(\Varid{n}\mathbin{+}\mathrm{1}))\mathbin{!}}{((\Varid{n}\mathbin{+}\mathrm{1})\mathbin{+}\mathrm{1})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{2})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{2})\;(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\;(\Varid{n}\mathbin{+}\mathrm{1})\;(\Varid{n})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{\mathrm{2}\;(\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\;(\Varid{n}\mathbin{+}\mathrm{1})\;(\Varid{n})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}{}\<[E]%
+\>[B]{}\Varid{f}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\frac{(\mathrm{2}\;(\Varid{n}\mathbin{+}\mathrm{1}))\mathbin{!}}{((\Varid{n}\mathbin{+}\mathrm{1})\mathbin{+}\mathrm{1})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{2})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{2})\;(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\;(\Varid{n}\mathbin{+}\mathrm{1})\;(\Varid{n})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{\mathrm{2}\;(\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\;(\Varid{n}\mathbin{+}\mathrm{1})\;(\Varid{n}\mathbin{!})\;(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}{}\<[E]%
 \\
 \>[B]{}\hsindent{9}{}\<[9]%
-\>[9]{}\mathrel{=}\frac{\mathrm{2}\;(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\;(\Varid{n})\mathbin{!}(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}(\Varid{n})\mathbin{!}}\comp \frac{\mathrm{4}\;\Varid{n}\mathbin{+}\mathrm{2}}{\Varid{n}\mathbin{+}\mathrm{2}}\mathrel{=}\Varid{f}\;\Varid{n}\comp \frac{\Varid{k}\;\Varid{n}}{\Varid{s}\;\Varid{n}}{}\<[E]%
+\>[9]{}\mathrel{=}\frac{\mathrm{2}\;(\mathrm{2}\;\Varid{n}\mathbin{+}\mathrm{1})\;(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{2})\;(\Varid{n}\mathbin{!})\;(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}}\mathrel{=}\frac{(\mathrm{2}\;\Varid{n})\mathbin{!}}{(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{!}(\Varid{n})\mathbin{!}}\comp \frac{\mathrm{4}\;\Varid{n}\mathbin{+}\mathrm{2}}{\Varid{n}\mathbin{+}\mathrm{2}}\mathrel{=}\Varid{f}\;\Varid{n}\comp \frac{\Varid{k}\;\Varid{n}}{\Varid{s}\;\Varid{n}}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -1918,26 +1922,24 @@ Solução:
 Solução:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{loop}\;(\Varid{f},\Varid{k},\Varid{s})\mathrel{=}(\Varid{f}\mathbin{+}\Varid{k}\div \Varid{s},\Varid{k}\mathbin{+}\mathrm{4},\Varid{s}\mathbin{+}\mathrm{1}){}\<[E]%
-\\
-\>[B]{}\Varid{inic}\mathrel{=}(\mathrm{1},\mathrm{2},\mathrm{2}){}\<[E]%
-\\
-\>[B]{}\Varid{prj}\;(\Varid{f},\Varid{k},\Varid{s})\mathrel{=}\Varid{f}{}\<[E]%
-\ColumnHook
-\end{hscode}\resethooks
-por forma a que
-\begin{hscode}\SaveRestoreHook
-\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{cat}\mathrel{=}\Varid{prj}\comp \for{\Varid{loop}}\ {\Varid{inic}}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{loop}\;(\Varid{f},\Varid{k},\Varid{s})\mathrel{=}(\Varid{f}\mathbin{*}\Varid{k}\div \Varid{s},\Varid{k}\mathbin{+}\mathrm{4},\Varid{s}\mathbin{+}\mathrm{1}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{inic}\mathrel{=}(\mathrm{1},\mathrm{2},\mathrm{2}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{prj}\;(\Varid{f},\Varid{k},\Varid{s})\mathrel{=}\Varid{f}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
-seja a função pretendida.
-\textbf{NB}: usar divisão inteira.
-Apresentar de seguida a justificação da solução encontrada.
 
+\vspace{0.3cm}
 \subsection*{Problema 3}
+\vspace{0.2cm}
 
 \xymatrixcolsep{0.5pc}\xymatrixrowsep{3pc}
 \centerline{\xymatrix{
@@ -1951,28 +1953,31 @@ Apresentar de seguida a justificação da solução encontrada.
           \ar[ll]^-{\ensuremath{\Varid{h}}}
 }}
 \vspace{0.3cm}
-Analisando o tipo da função calcLine podemos concluir que o nosso objetivo final deve ser retornar uma função que dado um \textit{NPoint}, devolve um \textit{OverTime NPoint}. 
-Tendo a consciência que poderiamos usar a versão uncurried desta função, resolvemos trabalhar os dois pontos como elementos separados e não um par, podendo saber qual elemento à cabeça do NPoint, o que nos permite avançar.
+Analisando o tipo da função calcLine podemos concluir que o nosso objetivo final deve ser retornar uma função que dado Resolvemos trabalhar os dois pontos como elementos separados e não um par, podendo saber qual elemento à cabeça do NPoint, o que nos permite avançar.
 \vspace{0.5cm}
+Feita alguma pesquisa concluimos que a interpolação dada entre dois pontos pode é a soma da multiplicação de todas as coordenadas do primeiro ponto por (1-t) com a do segundo por t.
 
+
+%linear (q,[]) (y:[]) = ((linear1d q y):[]) []
+%linear (q,(f,x:xs)) = f 
+
+Retorna 2 pontos?
 Solução:
-
+retornar uma função 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{4}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{calcLine}\mathbin{::}\Conid{NPoint}\to (\Conid{NPoint}\to \Conid{OverTime}\;\Conid{NPoint}){}\<[E]%
 \\
 \>[B]{}\Varid{calcLine}\mathrel{=}\Varid{cataList}\;\Varid{h}\;\mathbf{where}{}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{h}\mathrel{=}{}\<[8]%
-\>[8]{}\alt{\Varid{nil}}{\Varid{linear}}{}\<[E]%
+\>[3]{}\Varid{h}\mathrel{=}\bot {}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{linear}\;(\Varid{x}\mathbin{:}\Varid{xs})\;(\Varid{y}\mathbin{:}\Varid{ys})\mathrel{=}(\Varid{linear1d}\;\Varid{x}\;\Varid{y})\mathbin{:}(\Varid{linear}\;\Varid{xs}\;\Varid{ys}){}\<[E]%
+\>[3]{}\Varid{linear}\mathrel{=}\bot {}\<[E]%
 \\[\blanklineskip]%
 \>[B]{}\Varid{deCasteljau}\mathbin{::}[\mskip1.5mu \Conid{NPoint}\mskip1.5mu]\to \Conid{OverTime}\;\Conid{NPoint}{}\<[E]%
 \\
@@ -1984,7 +1989,7 @@ Solução:
 \>[B]{}\hsindent{4}{}\<[4]%
 \>[4]{}\Varid{alg}\mathrel{=}\bot {}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{hyloAlgForm}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\Varid{hyloAlgForm}\;\Varid{g}\;\Varid{h}\mathrel{=}\Varid{g}\comp \Varid{recList}\;(\Varid{cataList}\;\Varid{g})\comp \Varid{recList}\;(\Varid{anaList}\;\Varid{h})\comp \Varid{h}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -1992,28 +1997,32 @@ Solução:
 
 \begin{eqnarray*}
 \start
-avg\_aux\ a = \cata{[b, q])}
+avg\_aux = \cata{[b, q]}
 %
 \just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ avg\_aux}}
 %
-\split{avg}{length} \ = \cata{[ b, q]}
+\split{avg}{length} \ = \cata{[b, q]}
 %
-\just\equiv{\textcolor{blue}{Fokkinga (52)}}
+\just\equiv{\textcolor{blue}{Univelsal-cata}}
 %
-      \ensuremath{\begin{lcbr}\Varid{avg}\comp \mathbf{in}\mathrel{=}\Varid{b}\comp \Conid{F}\;\conj{\Varid{avg}}{\length }\\\length \comp \mathbf{in}\mathrel{=}\Varid{q}\comp \Conid{F}\;\conj{\Varid{avg}}{\length }\end{lcbr}}
-%
-\just\equiv{\textcolor{blue}{in.out=id (2><)}}
-%
-      \ensuremath{\begin{lcbr}\Varid{avg}\mathrel{=}\Varid{b}\comp \Conid{F}\;\conj{\Varid{avg}}{\length }\comp \Varid{out}\\\length \mathrel{=}\Varid{q}\comp \Conid{F}\;\conj{\Varid{avg}}{\length }\comp \Varid{out}\end{lcbr}}
+\split{avg}{length} \ = [\ b\ ,\ q\ ]\ .\ recList\ \cata{[b, q]}\ .\ outList\
 \end{eqnarray*}
 
+%(div (add (mul ((p1 . p2),(p2 . p2)) , p1)) (succ . p2 . p2), succ . p2 .p2))
+%split id (const 1)
 Solução para listas não vazias:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{12}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{avg}\mathrel{=}\p1\comp \Varid{avg\char95 aux}{}\<[E]%
-\\[\blanklineskip]%
-\>[B]{}\Varid{avg\char95 aux}\mathrel{=}\bot {}\<[E]%
+\\
+\>[B]{}\Varid{avg\char95 aux}\mathrel{=}{}\<[12]%
+\>[12]{}\Varid{cataList}\;\alt{\Varid{b}}{\Varid{q}}{}\<[E]%
+\\
+\>[B]{}\Varid{b}\mathrel{=}\bot {}\<[E]%
+\\
+\>[B]{}\Varid{q}\mathrel{=}\bot {}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 Solução para árvores de tipo \LTree:
@@ -2080,7 +2089,7 @@ Encontra-se em baixo o código \Fsharp\ desenvolvido:
 \ttfamily ~\char47{}\char47{}~\char40{}4\char46{}3\char41{}~Serialization~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
 \ttfamily ~let~inordt~x~\char61{}~cataBTree~inord~x\\
 \ttfamily ~\\
-\ttfamily ~let~inord~x~~\char61{}~either~nil~join~x\\
+\ttfamily ~let~inordt~x~~\char61{}~either~nil~join~x\\
 \ttfamily ~~~~~where~join~\char40{}x\char44{}\char40{}l\char44{}r\char41{}\char41{}~\char61{}~l~\char64{}~\char91{}x\char93{}~\char64{}~r\\
 \ttfamily ~\\
 \ttfamily ~let~preordt~x~\char61{}~cataBTree~preord~\\
@@ -2149,7 +2158,7 @@ Encontra-se em baixo o código \Fsharp\ desenvolvido:
 \ttfamily ~\\
 \ttfamily ~let~plug~\char91{}\char93{}~t~\char61{}~t\\
 \ttfamily ~let~plug~\char40{}\char40{}Dr~False~a~l\char41{}\char58{}z\char41{}~t~\char61{}~Node~\char40{}a\char44{}\char40{}plug~z~t\char44{}l\char41{}\char41{}\\
-\ttfamily ~let~plug~\char40{}\char40{}Dr~True~~a~r\char41{}\char58{}z\char41{}~t~\char61{}~Node~\char40{}a\char44{}\char40{}r\char44{}plug~z~t\char41{}\char41{}
+\ttfamily ~let~plug~\char40{}\char40{}Dr~True~~a~r\char41{}\char58{}z\char41{}~t~\char61{}~Node~\char40{}a\char44{}\char40{}r\char44{}plug~z\char44{}t\char41{}\char41{}
 \end{tabbing}
 
 %----------------- Fim do anexo com soluções dos alunos ------------------------%

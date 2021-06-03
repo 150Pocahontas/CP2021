@@ -1226,7 +1226,7 @@ sd = \pi2 .\  sd\_gen\ .\ recExpAr\ (\ cataExprAr\ sd\_gen\ )\ .\ outExprAr
 \end{eqnarray*}
 \vspace{0.5cm}
 
-\textit{sd\_gen} é o gene da função \textit{ad} que calcula a derivada de uma função. O gene tem como resultado (ExpAr a,ExpAr a), sendo o primeiro elemento do par a expressão que pretendemos derivar e o segundo a sua derivada.
+\textit{sd\_gen} é o gene da função \textit{sd} que calcula a derivada de uma função. O gene tem como resultado (ExpAr a,ExpAr a), sendo o primeiro elemento do par a expressão que pretendemos derivar e o segundo a sua derivada.
 
 \begin{eqnarray*}
 \start
@@ -1244,7 +1244,6 @@ As soluções dos dois encontram-se abaixo, na área soluções.
 
 
 \vspace{0.5cm}
-
 Solução:
 \begin{code}
 
@@ -1265,14 +1264,14 @@ binOpAux (Product,(a,b)) = (*) a b
 unOpAux (Negate,a) = -a
 unOpAux (E,a) = (expd a)
 --
-clean X = i1 ()
-clean (N a) = i2 (i1 a)
+clean (Bin Product (N 0) a) = i2 (i1 0)
+clean (Bin Product  a (N 0)) = i2 (i1 0)
 clean (Bin Sum (N 0) a ) = clean a
 clean (Bin Sum a (N 0) ) = clean a
 clean (Bin Product (N 1) a) = clean a
 clean (Bin Product a (N 1)) = clean a
-clean (Bin op a b) = i2 (i2 (i1 (op,(a,b))))
-clean (Un op a) = i2 (i2 (i2 (op, a)))
+clean (Un E (N 0)) = i2 (i1 1)
+clean a = outExpAr a
 --
 
 gopt a = either (calculaX a) (either id (either (goptAux) (unOpAux))) 
@@ -1281,22 +1280,22 @@ goptAux (Sum,(0,a)) = a
 goptAux (Sum,(a,0)) = a
 goptAux (Product,(1,a)) = a
 goptAux (Product,(a,1)) = a
-goptAux (op,(a,b)) = binOpAux (op,(a,b))
+goptAux a = binOpAux a
 --
 
 sd_gen :: Floating a =>
     Either () (Either a (Either (BinOp, ((ExpAr a, ExpAr a), (ExpAr a, ExpAr a))) (UnOp, (ExpAr a, ExpAr a)))) -> (ExpAr a, ExpAr a)
 
-sd_gen = either (sdAuxX) (either sdAuxN (either sdAuxB sdAuxU))
+sd_gen = either sdAuxX (either sdAuxN (either sdAuxB sdAuxU))
 
 sdAuxX () = (X,N 1)
 
 sdAuxN a = (N a,N 0)
 
 sdAuxB (Sum,((a,b),(c,d))) = (Bin Sum a c, Bin Sum b d)
-sdAuxB (Product,((a,b),(c,d))) = (Bin Product a c, Bin Sum (Bin Product a d) (Bin Product c b))
+sdAuxB (Product,((a,b),(c,d))) = (Bin Product a c, Bin Sum (Bin Product a d) (Bin Product b c))
 
-sdAuxU (Negate,(a,b)) = (a, Un Negate b)
+sdAuxU (Negate,(a,b)) = (Un Negate a, Un Negate b)
 sdAuxU (E,(a,b)) = (Un E a, Bin Product (Un E a) b)
 
 \end{code}
@@ -1304,14 +1303,14 @@ sdAuxU (E,(a,b)) = (Un E a, Bin Product (Un E a) b)
 \begin{code}
 ad_gen v = either (adAuxX v) (either adAuxN (either adAuxB adAuxU))
 
-adAuxX v ()  = (v,v)
+adAuxX v ()  = (v,1)
 
 adAuxN a = (a,0)
 
 adAuxB (Sum,((a,b),(c,d))) = ((+) a c,(+) b d)
-adAuxB (Product,((a,b),(c,d))) = ((*) a c, (+) ((*) a d) ((*) c b))
+adAuxB (Product,((a,b),(c,d))) = ((*) a c, (+) ((*) a d) ((*) b c))
 
-adAuxU (Negate,(a,b)) = (a, -b)
+adAuxU (Negate,(a,b)) = (-a, -b)
 adAuxU (E,(a,b)) = (expd a, (*) (expd a) b)
 
 \end{code}
@@ -1326,8 +1325,8 @@ adAuxU (E,(a,b)) = (expd a, (*) (expd a) b)
 
 \begin{spec}
 f 0 = 1
-f (n+1) = frac ((2(n+1))!) (((n+1)+1)! (n+1)!) = frac ((2n+2)!) ((n+2)! (n+1)!) = frac ((2n+2)(2n+1)(2n)!) ((n+2)(n+1)(n)! (n+1)!) = frac (2(n+1)(2n+1)(2n)!) ((n+2)(n+1)(n)! (n+1)!) =
-        = frac (2(2n+1)(2n)!) ((n+2)(n)! (n+1)!) = frac ((2n)!) ((n+1)!(n)!) . frac (4n+2) (n+2) = f n . frac (k n) (s n)
+f (n+1) = frac ((2(n+1))!) (((n+1)+1)! (n+1)!) = frac ((2n+2)!) ((n+2)! (n+1)!) = frac ((2n+2)(2n+1)(2n)!) ((n+2)(n+1)(n)! (n+1)!) = frac (2(n+1)(2n+1)(2n)!) ((n+2)(n+1)(n!) (n+1)!) =
+        = frac (2(2n+1)(2n)!) ((n+2)(n!) (n+1)!) = frac ((2n)!) ((n+1)!(n)!) . frac (4n+2) (n+2) = f n . frac (k n) (s n)
 \end{spec}
 
 \begin{spec}
@@ -1342,19 +1341,17 @@ s (n+1) = n+1+2 = s n + 1
 
 Solução:
 \begin{code}
-loop (f,k,s) = (f+(div k s),k+4,s+1)
-inic = (1,2,2)
-prj (f,k,s) = f
-\end{code}
-por forma a que
-\begin{code}
-cat = prj . (for loop inic)
-\end{code}
-seja a função pretendida.
-\textbf{NB}: usar divisão inteira.
-Apresentar de seguida a justificação da solução encontrada.
 
+cat = prj . (for loop inic) where
+  loop (f,k,s) = (div (f * k) s,k+4,s+1)
+  inic = (1,2,2)
+  prj (f,k,s) = f
+
+\end{code}
+
+\vspace{0.3cm}
 \subsection*{Problema 3}
+\vspace{0.3cm}
 
 \xymatrixcolsep{0.5pc}\xymatrixrowsep{3pc}
 \centerline{\xymatrix{
@@ -1373,6 +1370,8 @@ Analisando o tipo da função calcLine podemos concluir que o nosso objetivo fin
 Feita alguma pesquisa concluimos que a interpolação dada entre dois pontos pode é a soma da multiplicação de todas as coordenadas do primeiro ponto por (1-t) com a do segundo por t.
 
 
+%linear (q,[]) (y:[]) = ((linear1d q y):[]) []
+%linear (q,(f,x:xs)) = f 
 
 Retorna 2 pontos?
 Solução:
@@ -1380,10 +1379,9 @@ retornar uma função
 \begin{code}
 calcLine :: NPoint -> (NPoint -> OverTime NPoint)
 calcLine = cataList h where
-  h = either nil linear
-  linear (q,[]) (y:[]) = ((linear1d q y):[]) []
-  linear (q,x:xs) (y:ys) = ((linear1d q y):xs) ys
-
+  h = undefined
+  linear = undefined
+  
 
 deCasteljau :: [NPoint] -> OverTime NPoint
 deCasteljau = hyloAlgForm alg coalg where
@@ -1397,34 +1395,27 @@ hyloAlgForm g h = g.recList(cataList g).recList(anaList h).h
 
 \begin{eqnarray*}
 \start
-avg\_aux\ a = \cata{[b, q])}
+avg\_aux = \cata{[b, q]}
 %
 \just\equiv{\textcolor{blue}{Aplicando\ a\ definição\ dada\ de\ avg\_aux}}
 %
-\split{avg}{length} \ = \cata{[ b, q]}
+\split{avg}{length} \ = \cata{[b, q]}
 %
-\just\equiv{\textcolor{blue}{Fokkinga (52)}}
+\just\equiv{\textcolor{blue}{Univelsal-cata}}
 %
-      |lcbr(
-     avg . in = b . F(split avg length)
-  )(
-    length . in = q . F(split avg length)
-    )|
-%
-\just\equiv{\textcolor{blue}{in.out=id (2><)}}
-%
-      |lcbr(
-     avg = b . F(split avg length) . out
-  )(
-    length = q . F(split avg length) .out
-    )|
+\split{avg}{length} \ = [\ b\ ,\ q\ ]\ .\ recList\ \cata{[b, q]}\ .\ outList\
 \end{eqnarray*}
 
+%(div (add (mul ((p1 . p2),(p2 . p2)) , p1)) (succ . p2 . p2), succ . p2 .p2))
+%split id (const 1)
 Solução para listas não vazias:
 \begin{code}
 avg = p1.avg_aux
+avg_aux =  cataList (either b q)
+b = split id (const 1)
+q = (div (add(mul((p1.p2),(p2.p2)),p1)) (succ.p2.p2),succ.p2.p2)
 
-avg_aux = undefined
+
 \end{code}
 Solução para árvores de tipo \LTree:
 \begin{code}
@@ -1484,7 +1475,7 @@ let countBTree x = cataBTree (either (const 0) (succ . (uncurry (+)) . p2)) x
 // (4.3) Serialization ---------------------------------------------------------
 let inordt x = cataBTree inord x
 
-let inord x  = either nil join x
+let inordt x  = either nil join x
     where join (x,(l,r)) = l @ [x] @ r
 
 let preordt x = cataBTree preord 
@@ -1553,7 +1544,7 @@ countBTree' = monBTree (const (Sum 1))
 
 let plug [] t = t
 let plug ((Dr False a l):z) t = Node (a,(plug z t,l))
-let plug ((Dr True  a r):z) t = Node (a,(r,plug z t))
+let plug ((Dr True  a r):z) t = Node (a,(r,plug z,t))
 
 
 \end{verbatim}
