@@ -1042,7 +1042,7 @@ a menos de um erro de 0.1 milésimas:
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{4}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{prop\char95 avg}\mathbin{::}\Conid{Ord}\;\Varid{a}\Rightarrow [\mskip1.5mu \Varid{a}\mskip1.5mu]\to \Conid{Property}{}\<[E]%
+\>[B]{}\Varid{prop\char95 avg}\mathbin{::}[\mskip1.5mu \Conid{Double}\mskip1.5mu]\to \Conid{Property}{}\<[E]%
 \\
 \>[B]{}\Varid{prop\char95 avg}\mathrel{=}\Varid{nonempty}\Rightarrow\Varid{diff}\leq\underline{\mathrm{0.000001}}\;\mathbf{where}{}\<[E]%
 \\
@@ -1593,10 +1593,10 @@ São dadas:
 \centerline{\xymatrix{
    ExpAr\ a \ar[d]_-{\ensuremath{\Varid{f}}}
                 \ar@/^2pc/ [rr]^-{\ensuremath{\Varid{outExpAr}}} & \qquad \cong
-&   () + (a + (BinOp \times (ExpAr\ a \times ExpAr\ a) + (UnOp \times ExpAr\ a)))  \ar[d]^{\ensuremath{\Varid{id}\mathbin{+}(\Varid{id}\mathbin{+}(\Varid{id}\times(\Varid{f}\times\Varid{f})\mathbin{+}(\Varid{id}\times\Varid{f})))}}
+&   1 + (a + (BinOp \times (ExpAr\ a \times ExpAr\ a) + (UnOp \times ExpAr\ a)))  \ar[d]^{\ensuremath{\Varid{id}\mathbin{+}(\Varid{id}\mathbin{+}(\Varid{id}\times(\Varid{f}\times\Varid{f})\mathbin{+}(\Varid{id}\times\Varid{f})))}}
                                      \ar@/^2pc/ [ll]^-{\ensuremath{\Varid{inExpAr}}}
 \\
-    \ensuremath{\Conid{C}} &  & () + (a + ((BinOp \times (C \times C)) + (UnOp \times C)))\ar[ll]
+    \ensuremath{\Conid{C}} &  & 1 + (a + ((BinOp \times (C \times C)) + (UnOp \times C)))\ar[ll]
 }}
 
 \vspace{1cm}
@@ -1638,9 +1638,9 @@ Definindo o diagrama de \textit{eval\_exp},\ podemos obter a expressão pretendi
 \centerline{\xymatrix{
    ExpAr\ a\ar[d]_-{\ensuremath{\cata{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}}
                 \ar@/^2pc/ [rr]^-{\ensuremath{\Varid{outExpAr}}} & \qquad \cong
-&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  \ar[d]^{\ensuremath{\Varid{recExpAr}\;\cata{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}}
+&   1 + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  \ar[d]^{\ensuremath{\Varid{recExpAr}\;\cata{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}}
 \\
-    \ensuremath{\Varid{a}} &  & () + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))\ar[ll]^-{\ensuremath{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}
+    \ensuremath{\Varid{a}} &  & 1 + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))\ar[ll]^-{\ensuremath{\Varid{g\char95 eval\char95 exp}\;\Varid{a}}}
 }}
 
 \vspace{3cm}
@@ -1652,7 +1652,7 @@ Neste caso, percorremos todas as expressões, de modo a determinar o valor de ca
 \xymatrixcolsep{5pc}\xymatrixrowsep{3pc}
 \centerline
 {\xymatrix{
-    () + (a + (BinOp \times (a \times a) + (UnOp \times a))) 
+    1 + (a + (BinOp \times (a \times a) + (UnOp \times a))) 
     \ar[d]_{(calculaX\ a )+ (id + binOpAux + unOpAux)} \\
     a + (a + a + a)
     \ar [d]_{[\ id ,[\ id , [\ id,id\ ]\ ]\ ]} \\
@@ -1714,9 +1714,9 @@ De seguida definimos os diagramas de \textit{cataExpAr(gopt\ a)} e de \textit{an
     ExpAr\ a
     			\ar[d]_-{\ensuremath{\Varid{anaExpAr}\;(\Varid{clean})}}
                 \ar@/^2pc/ [rr]^{\ensuremath{\Varid{clean}}} & 
-&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a))) 
+&   1 + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a))) 
 				\ar[d]^{\ensuremath{\Varid{recExpAr}\;(\Varid{anaExpAr}\;(\Varid{clean}))}}\\
-    \ensuremath{\Conid{ExpAr}\;\Varid{a}} &  & () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))
+    \ensuremath{\Conid{ExpAr}\;\Varid{a}} &  & 1 + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))
     			\ar[ll]^-{\ensuremath{\Varid{inExpAr}}}
 }}
 
@@ -1727,15 +1727,15 @@ De seguida definimos os diagramas de \textit{cataExpAr(gopt\ a)} e de \textit{an
 	ExpAr\ a
    				\ar[d]_-{\ensuremath{\cata{\Varid{gopt}\;\Varid{a}}}}
                 \ar@/^2pc/ [rr]^-{\ensuremath{\Varid{outExpAr}}} & \qquad \cong
-&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  			\ar[d]^{\ensuremath{\Varid{recExpAr}\;\cata{\Varid{gopt}\;\Varid{a}}}}
+&   1 + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  			\ar[d]^{\ensuremath{\Varid{recExpAr}\;\cata{\Varid{gopt}\;\Varid{a}}}}
 \\
-    \ensuremath{\Varid{a}} &  & () + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))
+    \ensuremath{\Varid{a}} &  & 1 + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))
     			\ar[ll]^-{\ensuremath{\Varid{gopt}\;\Varid{a}}}
 }}
 
 \vspace{1.5cm}
 
-Deste modo chegamos às expressões dos genes \textit{clean} e \textit{gopt a}, presentes na area Soluções desta secção. Estes têm o propósito de eliminar os as somas ou os produtos onde se possa apliacar as propriedades absorventes detas, de forma a otimizar o calculo das expressões aritméticas.
+Deste modo chegamos às expressões dos genes \textit{clean} e \textit{gopt a}, presentes na area \textit{Soluções} deste Problema. Estes têm o propósito de eliminar as somas ou os produtos onde se possa aplicar as propriedades absorventes destas, de forma a otimizar o cálculo das expressões aritméticas.
 \vspace{1.5cm}
 
 \subsubsection*{sd\_gen e ad\_gen}%-------------------------------------------------
@@ -1769,9 +1769,6 @@ As soluções dos dois encontram-se abaixo, na área soluções.
 
 
 \vspace{0.5cm}
-%clean (Bin op a b) = i2 (i2 (i1 (op,(a,b))))
-%clean (Un op a) = i2 (i2 (i2 (op, a)))
-
 Solução:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1885,9 +1882,11 @@ Solução:
 \subsection*{Problema 2}
 
 \begin{eqnarray}
-  C_n = \frac{(2n)!}{(n+1)! (n!) }
+  Seja\ \ \ \ \ \  \ C_n = \frac{(2n)!}{(n+1)! (n!)}, \ \ \ consideremos\ \ f\ =\ C_n
   \label{eq:cat}
 \end{eqnarray}
+pretendemos\ aplicar\ a\ \textit{regra da Algibreira} para\ esta\ função.
+Para isto descobrimos o valor da função no pontos zero e n+1:
 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1902,6 +1901,7 @@ Solução:
 \ColumnHook
 \end{hscode}\resethooks
 
+Tendo este resultado fomos descobrir os valores das função k e s nos pontos 0 e n+1
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
@@ -1910,7 +1910,9 @@ Solução:
 \>[B]{}\Varid{k}\;\mathrm{0}\mathrel{=}\mathrm{1}{}\<[E]%
 \\
 \>[B]{}\Varid{k}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}(\mathrm{4}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathbin{+}\mathrm{2})\mathrel{=}\mathrm{4}\;\Varid{n}\mathbin{+}\mathrm{6}\mathrel{=}\Varid{k}\;\Varid{n}\mathbin{+}\mathrm{4}{}\<[E]%
-\\[\blanklineskip]%
+\\
+\>[B]{}\mbox{\onelinecomment }{}\<[E]%
+\\
 \>[B]{}\Varid{s}\;\Varid{n}\mathrel{=}\Varid{n}\mathbin{+}\mathrm{2}{}\<[E]%
 \\
 \>[B]{}\Varid{s}\;\mathrm{0}\mathrel{=}\mathrm{2}{}\<[E]%
@@ -1919,12 +1921,12 @@ Solução:
 \ColumnHook
 \end{hscode}\resethooks
 
-Solução:
+A solução encontrada, tem como sesultado o seguinte \textit{loop}
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{cat}\mathrel{=}\Varid{prj}\comp \for{\Varid{loop}}\ {\Varid{inic}}{}\<[E]%
+\>[B]{}\Varid{cat}\mathrel{=}\Varid{prj}\comp \for{\Varid{loop}}\ {\Varid{inic}}\;\mathbf{where}{}\<[E]%
 \\
 \>[B]{}\hsindent{3}{}\<[3]%
 \>[3]{}\Varid{loop}\;(\Varid{f},\Varid{k},\Varid{s})\mathrel{=}(\Varid{f}\mathbin{*}\Varid{k}\div \Varid{s},\Varid{k}\mathbin{+}\mathrm{4},\Varid{s}\mathbin{+}\mathrm{1}){}\<[E]%
@@ -1939,57 +1941,91 @@ Solução:
 
 \vspace{0.3cm}
 \subsection*{Problema 3}
-\vspace{0.2cm}
+\vspace{0.3cm}
+A interpolação dada entre dois pontos pode é a soma da multiplicação de todas as coordenadas do primeiro ponto por (1-t) com a do segundo por t.
+\vspace{0.5cm}
 
 \xymatrixcolsep{0.5pc}\xymatrixrowsep{3pc}
 \centerline{\xymatrix{
   NPoint
           \ar[d]_-{\ensuremath{\Varid{calcLine}}}
                 \ar [rr]^-{\ensuremath{\Varid{outList}}} & \qquad 
-&   () + (\Q \times  NPoint)      
+&   1 + (\Q \times  NPoint)      
           \ar[d]^{\ensuremath{\Varid{recList}\;\cata{\Varid{h}}}}
 \\
-    \ensuremath{((\Conid{OverTime}\;\Conid{NPoint})\mathbin{\uparrow}\Conid{NPoint})} &  & \ensuremath{()\mathbin{+}(\Conid{Q}\times(\Conid{OverTime}\;\Conid{NPoint}\mathbin{\uparrow}\Conid{NPoint}))}
+    \ensuremath{((\Conid{OverTime}\;\Conid{NPoint})\mathbin{\uparrow}\Conid{NPoint})} &  & \ensuremath{\mathrm{1}\mathbin{+}(\Conid{Q}\times(\Conid{OverTime}\;\Conid{NPoint}\mathbin{\uparrow}\Conid{NPoint}))}
           \ar[ll]^-{\ensuremath{\Varid{h}}}
 }}
-\vspace{0.3cm}
-Analisando o tipo da função calcLine podemos concluir que o nosso objetivo final deve ser retornar uma função que dado Resolvemos trabalhar os dois pontos como elementos separados e não um par, podendo saber qual elemento à cabeça do NPoint, o que nos permite avançar.
 \vspace{0.5cm}
-Feita alguma pesquisa concluimos que a interpolação dada entre dois pontos pode é a soma da multiplicação de todas as coordenadas do primeiro ponto por (1-t) com a do segundo por t.
+Analisando o tipo da função calcLine podemos concluir que o nosso objetivo final deve ser retornar uma função que dado um \textit{Npoint} resulta um \textit{OverTime NPoint}.
+
+\vspace{0.5cm}
 
 
-%linear (q,[]) (y:[]) = ((linear1d q y):[]) []
-%linear (q,(f,x:xs)) = f 
-
-Retorna 2 pontos?
 Solução:
-retornar uma função 
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{8}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{15}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{calcLine}\mathbin{::}\Conid{NPoint}\to (\Conid{NPoint}\to \Conid{OverTime}\;\Conid{NPoint}){}\<[E]%
 \\
 \>[B]{}\Varid{calcLine}\mathrel{=}\Varid{cataList}\;\Varid{h}\;\mathbf{where}{}\<[E]%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{h}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{h}\mathrel{=}\alt{\Varid{n}}{\Varid{linear}}{}\<[E]%
 \\
-\>[B]{}\hsindent{3}{}\<[3]%
-\>[3]{}\Varid{linear}\mathrel{=}\bot {}\<[E]%
-\\[\blanklineskip]%
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{n}\mathbin{::}\Varid{a}\to (\Conid{NPoint}\to \Conid{OverTime}\;\Conid{NPoint}){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{n}\;\Varid{a}\;\Varid{b}\mathrel{=}\Varid{nil}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{linear}\mathbin{::}(\Q ,\Conid{NPoint}\to \Conid{OverTime}\;\Conid{NPoint})\to (\Conid{NPoint}\to \Conid{OverTime}\;\Conid{NPoint}){}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{linear}\;(\Varid{d},\Varid{f})\;\Varid{l}\mathrel{=}\mathbf{case}\;\Varid{l}\;\mathbf{of}{}\<[E]%
+\\
+\>[5]{}\hsindent{3}{}\<[8]%
+\>[8]{}[\mskip1.5mu \mskip1.5mu]{}\<[15]%
+\>[15]{}\to \Varid{nil}{}\<[E]%
+\\
+\>[5]{}\hsindent{3}{}\<[8]%
+\>[8]{}(\Varid{x}\mathbin{:}\Varid{xs})\to \lambda \Varid{z}\to \Varid{concat}\mathbin{\$}(\Varid{sequenceA}\;[\mskip1.5mu \Varid{singl}\comp \Varid{linear1d}\;\Varid{d}\;\Varid{x},\Varid{f}\;\Varid{xs}\mskip1.5mu])\;\Varid{z}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+Com a solução \textit{calcLine} podemos obeter a função \textit{deCastelejau} que implementa o algoritmo respetivo, ou seja faz a interpolação para um conjunto de pontos.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{deCasteljau}\mathbin{::}[\mskip1.5mu \Conid{NPoint}\mskip1.5mu]\to \Conid{OverTime}\;\Conid{NPoint}{}\<[E]%
 \\
-\>[B]{}\Varid{deCasteljau}\mathrel{=}\Varid{hyloAlgForm}\;\Varid{alg}\;\Varid{coalg}\;\mathbf{where}{}\<[E]%
+\>[B]{}\Varid{deCasteljau}\;\Varid{xs}\mathrel{=}\lambda \Varid{pt}\to \Varid{hyloAlgForm}\;(\Varid{alg}\;\Varid{xs}\;\Varid{pt})\;(\Varid{coalg}\;\Varid{xs}\;\Varid{pt})\;\Varid{pt}\;\mathbf{where}{}\<[E]%
 \\
-\>[B]{}\hsindent{4}{}\<[4]%
-\>[4]{}\Varid{coalg}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{alg}\;[\mskip1.5mu \mskip1.5mu]\;\Varid{pt}\mathrel{=}\Varid{nil}\;\Varid{pt}{}\<[E]%
 \\
-\>[B]{}\hsindent{4}{}\<[4]%
-\>[4]{}\Varid{alg}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{alg}\;[\mskip1.5mu \Varid{x}\mskip1.5mu]\;\Varid{pt}\mathrel{=}\underline{\Varid{x}}\;\Varid{pt}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{alg}\;\Varid{xs}\;\Varid{pt}\mathrel{=}\Varid{deCasteljau}\;(\Varid{init}\;\Varid{xs})\;\Varid{pt}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{coalg}\;[\mskip1.5mu \mskip1.5mu]\;\Varid{pt}\mathrel{=}\Varid{nil}\;\Varid{pt}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{coalg}\;[\mskip1.5mu \Varid{x}\mskip1.5mu]\;\Varid{pt}\mathrel{=}\Varid{nil}\;\Varid{pt}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\Varid{coalg}\;\Varid{xs}\;\Varid{pt}\mathrel{=}\Varid{deCasteljau}\;(\Varid{tail}\;\Varid{xs})\;\Varid{pt}{}\<[E]%
 \\[\blanklineskip]%
-\>[B]{}\Varid{hyloAlgForm}\;\Varid{g}\;\Varid{h}\mathrel{=}\Varid{g}\comp \Varid{recList}\;(\Varid{cataList}\;\Varid{g})\comp \Varid{recList}\;(\Varid{anaList}\;\Varid{h})\comp \Varid{h}{}\<[E]%
+\>[B]{}\Varid{hyloAlgForm}\mathrel{=}\Varid{calcLine}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
@@ -2005,42 +2041,91 @@ avg\_aux = \cata{[b, q]}
 %
 \just\equiv{\textcolor{blue}{Univelsal-cata}}
 %
-\split{avg}{length} \ = [\ b\ ,\ q\ ]\ .\ recList\ \cata{[b, q]}\ .\ outList\
+\split{avg}{length} \ = [b\ ,\ q]\ .\ recList\ \cata{[b, q]}\ .\ outList\
 \end{eqnarray*}
 
-%(div (add (mul ((p1 . p2),(p2 . p2)) , p1)) (succ . p2 . p2), succ . p2 .p2))
-%split id (const 1)
-Solução para listas não vazias:
+\vspace{0.3cm}
+Para resolução desta função, de maneira a ignorar listas fazias criamos o código seguinte:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{outSingle}\;(\Varid{a}\mathbin{:}[\mskip1.5mu \mskip1.5mu])\mathrel{=}i_1\;\Varid{a}{}\<[E]%
+\\
+\>[B]{}\Varid{outSingle}\;(\Varid{x}\mathbin{:}\Varid{xs})\mathrel{=}i_2\;(\Varid{x},\Varid{xs}){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{cataSingle}\;\Varid{g}\mathrel{=}\Varid{g}\comp \Varid{recList}\;(\Varid{cataSingle}\;\Varid{g})\comp \Varid{outSingle}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+ 
+Com estas funções conseguimos definir o catamorfismo \textit{avg\_Aux}:
+
+\vspace{0.3cm}
+
+\xymatrixcolsep{0.5pc}\xymatrixrowsep{3pc}
+\centerline{\xymatrix{
+  A*
+          \ar[d]_-{\ensuremath{\conj{\Varid{avg}}{\length }}}
+                \ar [rr]^-{\ensuremath{\Varid{outSingle}}} & \qquad 
+&   \ensuremath{\Conid{A}\mathbin{+}(\Conid{A}\times\Conid{A}\mathbin{*})}
+          \ar[d]^{\ensuremath{\Varid{recList}\;\cata{\alt{\Varid{b}}{\Varid{q}}}}}
+\\
+    \ensuremath{(\Conid{A}\times\Conid{B})} &  & \ensuremath{\Conid{A}\mathbin{+}(\Conid{A}\times\Conid{B})}
+          \ar[ll]^-{\ensuremath{\alt{\Varid{b}}{\Varid{q}}}}
+}}
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{6}{@{}>{\hspre}c<{\hspost}@{}}%
+\column{6E}{@{}l@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{12}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
 \>[B]{}\Varid{avg}\mathrel{=}\p1\comp \Varid{avg\char95 aux}{}\<[E]%
 \\
 \>[B]{}\Varid{avg\char95 aux}\mathrel{=}{}\<[12]%
-\>[12]{}\Varid{cataList}\;\alt{\Varid{b}}{\Varid{q}}{}\<[E]%
+\>[12]{}\Varid{cataSingle}\;\alt{\Varid{b}}{\Varid{q}}\;\mathbf{where}{}\<[E]%
 \\
-\>[B]{}\Varid{b}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{b}{}\<[6]%
+\>[6]{}\mathrel{=}{}\<[6E]%
+\>[9]{}\conj{\Varid{id}}{\underline{\mathrm{1}}}{}\<[E]%
 \\
-\>[B]{}\Varid{q}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{q}{}\<[6]%
+\>[6]{}\mathrel{=}{}\<[6E]%
+\>[9]{}\conj{\Varid{avgAux}}{\succ \comp \p2\comp \p2}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{avgAux}\;(\Varid{x},(\Varid{a},\Varid{l}))\mathrel{=}(\Varid{x}\mathbin{+}(\Varid{a}\mathbin{*}\Varid{l}))\mathbin{/}(\Varid{l}\mathbin{+}\mathrm{1}){}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 Solução para árvores de tipo \LTree:
 \begin{hscode}\SaveRestoreHook
 \column{B}{@{}>{\hspre}l<{\hspost}@{}}%
-\column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
 \column{E}{@{}>{\hspre}l<{\hspost}@{}}%
-\>[B]{}\Varid{avgLTree}\mathrel{=}\p1\comp \llparenthesis\, \Varid{gene}\,\rrparenthesis\;\mathbf{where}{}\<[E]%
+\>[B]{}\Varid{avgLTree}\mathrel{=}\p1\comp \llparenthesis\, \alt{\Varid{b}}{\Varid{q}}\,\rrparenthesis\;\mathbf{where}{}\<[E]%
 \\
-\>[B]{}\hsindent{4}{}\<[4]%
-\>[4]{}\Varid{gene}\mathrel{=}\bot {}\<[E]%
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{b}\mathrel{=}\conj{\Varid{id}}{\underline{\mathrm{1}}}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{q}\mathrel{=}\conj{\Varid{agvLTreeAux}}{\Varid{lTreeSize}}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{agvLTreeAux}\;((\Varid{x1},\Varid{x2}),(\Varid{y1},\Varid{y2}))\mathrel{=}((\Varid{x1}\mathbin{*}\Varid{x2})\mathbin{+}(\Varid{y1}\mathbin{*}\Varid{y2}))\mathbin{/}(\Varid{x2}\mathbin{+}\Varid{y2}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{lTreeSize}\;((\Varid{x1},\Varid{x2}),(\Varid{y1},\Varid{y2}))\mathrel{=}\Varid{x2}\mathbin{+}\Varid{y2}{}\<[E]%
 \ColumnHook
 \end{hscode}\resethooks
 
+\vspace{1cm}
+
 \subsection*{Problema 5}
 Encontra-se em baixo o código \Fsharp\ desenvolvido:
-
-
+\small
 \begin{tabbing}\ttfamily
 ~\char47{}\char47{}~\char40{}1\char41{}~Datatype~definition~\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\char45{}\\
 \ttfamily ~\\
@@ -2160,6 +2245,7 @@ Encontra-se em baixo o código \Fsharp\ desenvolvido:
 \ttfamily ~let~plug~\char40{}\char40{}Dr~False~a~l\char41{}\char58{}z\char41{}~t~\char61{}~Node~\char40{}a\char44{}\char40{}plug~z~t\char44{}l\char41{}\char41{}\\
 \ttfamily ~let~plug~\char40{}\char40{}Dr~True~~a~r\char41{}\char58{}z\char41{}~t~\char61{}~Node~\char40{}a\char44{}\char40{}r\char44{}plug~z\char44{}t\char41{}\char41{}
 \end{tabbing}
+
 
 %----------------- Fim do anexo com soluções dos alunos ------------------------%
 

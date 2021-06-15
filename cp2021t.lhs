@@ -702,7 +702,7 @@ Verifique as suas funções testando a propriedade seguinte:
 A média de uma lista não vazia e de uma \LTree\ com os mesmos elementos coincide,
 a menos de um erro de 0.1 milésimas:
 \begin{code}
-prop_avg :: Ord a => [a] -> Property
+prop_avg :: [Double] -> Property
 prop_avg = nonempty .==>. diff .<=. const 0.000001 where
    diff l = avg l - (avgLTree . genLTree) l
    genLTree = anaLTree lsplit
@@ -1068,10 +1068,10 @@ ad v = p2 . cataExpAr (ad_gen v)
 \centerline{\xymatrix{
    ExpAr\ a \ar[d]_-{|f|}
                 \ar@@/^2pc/ [rr]^-{|outExpAr|} & \qquad \cong
-&   () + (a + (BinOp \times (ExpAr\ a \times ExpAr\ a) + (UnOp \times ExpAr\ a)))  \ar[d]^{|id + (id + (id >< (f >< f) + (id >< f)))|}
+&   1 + (a + (BinOp \times (ExpAr\ a \times ExpAr\ a) + (UnOp \times ExpAr\ a)))  \ar[d]^{|id + (id + (id >< (f >< f) + (id >< f)))|}
                                      \ar@@/^2pc/ [ll]^-{|inExpAr|}
 \\
-    |C| &  & () + (a + ((BinOp \times (C \times C)) + (UnOp \times C)))\ar[ll]
+    |C| &  & 1 + (a + ((BinOp \times (C \times C)) + (UnOp \times C)))\ar[ll]
 }}
 
 \vspace{1cm}
@@ -1113,9 +1113,9 @@ Definindo o diagrama de \textit{eval\_exp},\ podemos obter a expressão pretendi
 \centerline{\xymatrix{
    ExpAr\ a\ar[d]_-{|cataNat (g_eval_exp a)|}
                 \ar@@/^2pc/ [rr]^-{|outExpAr|} & \qquad \cong
-&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  \ar[d]^{|recExpAr(cataNat (g_eval_exp a))|}
+&   1 + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  \ar[d]^{|recExpAr(cataNat (g_eval_exp a))|}
 \\
-    |a| &  & () + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))\ar[ll]^-{|g_eval_exp a|}
+    |a| &  & 1 + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))\ar[ll]^-{|g_eval_exp a|}
 }}
 
 \vspace{3cm}
@@ -1127,7 +1127,7 @@ Neste caso, percorremos todas as expressões, de modo a determinar o valor de ca
 \xymatrixcolsep{5pc}\xymatrixrowsep{3pc}
 \centerline
 {\xymatrix{
-    () + (a + (BinOp \times (a \times a) + (UnOp \times a))) 
+    1 + (a + (BinOp \times (a \times a) + (UnOp \times a))) 
     \ar[d]_{(calculaX\ a )+ (id + binOpAux + unOpAux)} \\
     a + (a + a + a)
     \ar [d]_{[\ id ,[\ id , [\ id,id\ ]\ ]\ ]} \\
@@ -1189,9 +1189,9 @@ De seguida definimos os diagramas de \textit{cataExpAr(gopt\ a)} e de \textit{an
     ExpAr\ a
     			\ar[d]_-{|anaExpAr (clean)|}
                 \ar@@/^2pc/ [rr]^{|clean|} & 
-&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a))) 
+&   1 + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a))) 
 				\ar[d]^{|recExpAr(anaExpAr(clean))|}\\
-    |ExpAr a| &  & () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))
+    |ExpAr a| &  & 1 + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))
     			\ar[ll]^-{|inExpAr|}
 }}
 
@@ -1202,15 +1202,15 @@ De seguida definimos os diagramas de \textit{cataExpAr(gopt\ a)} e de \textit{an
 	ExpAr\ a
    				\ar[d]_-{|cataNat (gopt a)|}
                 \ar@@/^2pc/ [rr]^-{|outExpAr|} & \qquad \cong
-&   () + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  			\ar[d]^{|recExpAr(cataNat (gopt a))|}
+&   1 + (a + ((BinOp \times (ExpAr\ a \times ExpAr\ a)) + (UnOp \times ExpAr\ a)))  			\ar[d]^{|recExpAr(cataNat (gopt a))|}
 \\
-    |a| &  & () + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))
+    |a| &  & 1 + (a + ((BinOp \times (a \times a)) + (UnOp \times a)))
     			\ar[ll]^-{|gopt a|}
 }}
 
 \vspace{1.5cm}
 
-Deste modo chegamos às expressões dos genes \textit{clean} e \textit{gopt a}, presentes na area Soluções desta secção. Estes têm o propósito de eliminar os as somas ou os produtos onde se possa apliacar as propriedades absorventes detas, de forma a otimizar o calculo das expressões aritméticas.
+Deste modo chegamos às expressões dos genes \textit{clean} e \textit{gopt a}, presentes na area \textit{Soluções} deste Problema. Estes têm o propósito de eliminar as somas ou os produtos onde se possa aplicar as propriedades absorventes destas, de forma a otimizar o cálculo das expressões aritméticas.
 \vspace{1.5cm}
 
 \subsubsection*{sd\_gen e ad\_gen}%-------------------------------------------------
@@ -1319,9 +1319,11 @@ adAuxU (E,(a,b)) = (expd a, (*) (expd a) b)
 \subsection*{Problema 2}
 
 \begin{eqnarray}
-  C_n = \frac{(2n)!}{(n+1)! (n!) }
+  Seja\ \ \ \ \ \  \ C_n = \frac{(2n)!}{(n+1)! (n!)}, \ \ \ consideremos\ \ f\ =\ C_n
   \label{eq:cat}
 \end{eqnarray}
+pretendemos\ aplicar\ a\ \textit{regra da Algibreira} para\ esta\ função.
+Para isto descobrimos o valor da função no pontos zero e n+1:
 
 \begin{spec}
 f 0 = 1
@@ -1329,66 +1331,77 @@ f (n+1) = frac ((2(n+1))!) (((n+1)+1)! (n+1)!) = frac ((2n+2)!) ((n+2)! (n+1)!) 
         = frac (2(2n+1)(2n)!) ((n+2)(n!) (n+1)!) = frac ((2n)!) ((n+1)!(n)!) . frac (4n+2) (n+2) = f n . frac (k n) (s n)
 \end{spec}
 
+Tendo este resultado fomos descobrir os valores das função k e s nos pontos 0 e n+1
 \begin{spec}
 k n = 4n+2
 k 0 = 1
 k (n+1) = (4(n+1)+2) = 4n+6 = k n + 4
-
+--
 s n = n+2
 s 0 = 2
 s (n+1) = n+1+2 = s n + 1
 \end{spec}
 
-Solução:
+A solução encontrada, tem como sesultado o seguinte \textit{loop}
 \begin{code}
-
 cat = prj . (for loop inic) where
   loop (f,k,s) = (div (f * k) s,k+4,s+1)
   inic = (1,2,2)
   prj (f,k,s) = f
-
 \end{code}
 
 \vspace{0.3cm}
 \subsection*{Problema 3}
 \vspace{0.3cm}
+A interpolação dada entre dois pontos pode é a soma da multiplicação de todas as coordenadas do primeiro ponto por (1-t) com a do segundo por t.
+\vspace{0.5cm}
 
 \xymatrixcolsep{0.5pc}\xymatrixrowsep{3pc}
 \centerline{\xymatrix{
   NPoint
           \ar[d]_-{|calcLine|}
                 \ar [rr]^-{|outList|} & \qquad 
-&   () + (\Q \times  NPoint)      
+&   1 + (\Q \times  NPoint)      
           \ar[d]^{|recList(cata h|}
 \\
-    |((OverTime NPoint) ^ NPoint)| &  & |() + (Q >< (OverTime NPoint ^ NPoint))|
+    |((OverTime NPoint) ^ NPoint)| &  & |1 + (Q >< (OverTime NPoint ^ NPoint))|
           \ar[ll]^-{|h|}
 }}
-\vspace{0.3cm}
-Analisando o tipo da função calcLine podemos concluir que o nosso objetivo final deve ser retornar uma função que dado Resolvemos trabalhar os dois pontos como elementos separados e não um par, podendo saber qual elemento à cabeça do NPoint, o que nos permite avançar.
 \vspace{0.5cm}
-Feita alguma pesquisa concluimos que a interpolação dada entre dois pontos pode é a soma da multiplicação de todas as coordenadas do primeiro ponto por (1-t) com a do segundo por t.
+Analisando o tipo da função calcLine podemos concluir que o nosso objetivo final deve ser retornar uma função que dado um \textit{Npoint} resulta um \textit{OverTime NPoint}.
+
+\vspace{0.5cm}
 
 
-%linear (q,[]) (y:[]) = ((linear1d q y):[]) []
-%linear (q,(f,x:xs)) = f 
-
-Retorna 2 pontos?
 Solução:
-retornar uma função 
 \begin{code}
 calcLine :: NPoint -> (NPoint -> OverTime NPoint)
 calcLine = cataList h where
-  h = undefined
-  linear = undefined
-  
+    h = either n linear
+    n :: a -> (NPoint -> OverTime NPoint)
+    n a b = nil
+    linear :: (Rational, NPoint -> OverTime NPoint) -> (NPoint -> OverTime NPoint)
+    linear (d,f) l = case l of
+       []     -> nil
+       (x:xs) -> \z -> concat $ (sequenceA [singl . linear1d d x, f xs]) z
+
+\end{code}
+
+
+Com a solução \textit{calcLine} podemos obeter a função \textit{deCastelejau} que implementa o algoritmo respetivo, ou seja faz a interpolação para um conjunto de pontos.
+\begin{code}
 
 deCasteljau :: [NPoint] -> OverTime NPoint
-deCasteljau = hyloAlgForm alg coalg where
-   coalg = undefined
-   alg = undefined
+deCasteljau xs = \pt -> hyloAlgForm (alg xs pt) (coalg xs pt) pt where
+    alg [] pt = nil pt
+    alg [x] pt = (const x) pt
+    alg xs pt = deCasteljau (init xs) pt
+    coalg [] pt = nil pt
+    coalg [x] pt = nil pt
+    coalg xs pt = deCasteljau (tail xs) pt
 
-hyloAlgForm g h = g.recList(cataList g).recList(anaList h).h
+
+hyloAlgForm = calcLine
 \end{code}
 
 \subsection*{Problema 4}
@@ -1403,30 +1416,56 @@ avg\_aux = \cata{[b, q]}
 %
 \just\equiv{\textcolor{blue}{Univelsal-cata}}
 %
-\split{avg}{length} \ = [\ b\ ,\ q\ ]\ .\ recList\ \cata{[b, q]}\ .\ outList\
+\split{avg}{length} \ = [b\ ,\ q]\ .\ recList\ \cata{[b, q]}\ .\ outList\
 \end{eqnarray*}
 
-%(div (add (mul ((p1 . p2),(p2 . p2)) , p1)) (succ . p2 . p2), succ . p2 .p2))
-%split id (const 1)
-Solução para listas não vazias:
+\vspace{0.3cm}
+Para resolução desta função, de maneira a ignorar listas fazias criamos o código seguinte:
+\begin{code}
+outSingle (a:[]) = i1 a
+outSingle (x:xs) = i2 (x,xs)
+
+cataSingle g = g . recList (cataSingle g) . outSingle
+\end{code}
+ 
+Com estas funções conseguimos definir o catamorfismo \textit{avg\_Aux}:
+
+\vspace{0.3cm}
+
+\xymatrixcolsep{0.5pc}\xymatrixrowsep{3pc}
+\centerline{\xymatrix{
+  A*
+          \ar[d]_-{|split avg length|}
+                \ar [rr]^-{|outSingle|} & \qquad 
+&   |A + (A >< A*)|
+          \ar[d]^{|recList(cata (either b q)|}
+\\
+    |(A >< B)| &  & |A +  (A >< B) |
+          \ar[ll]^-{|either b q|}
+}}
+
 \begin{code}
 avg = p1.avg_aux
-avg_aux =  cataList (either b q)
-b = split id (const 1)
-q = (div (add(mul((p1.p2),(p2.p2)),p1)) (succ.p2.p2),succ.p2.p2)
-
+avg_aux =  cataSingle (either b q) where
+  b  =  split id (const 1)
+  q  =  split avgAux (succ . p2 .p2)
+  avgAux (x,(a,l)) = (x + (a * l)) / (l + 1)
 
 \end{code}
 Solução para árvores de tipo \LTree:
 \begin{code}
-avgLTree = p1.cataLTree gene where
-   gene = undefined
+avgLTree = p1.cataLTree (either b q) where
+  b = split id (const 1)
+  q = split agvLTreeAux lTreeSize
+  agvLTreeAux ((x1,x2),(y1,y2)) = ((x1*x2) + (y1*y2)) / (x2 + y2) 
+  lTreeSize ((x1,x2),(y1,y2)) = x2 + y2
 \end{code}
+
+\vspace{1cm}
 
 \subsection*{Problema 5}
 Encontra-se em baixo o código \Fsharp\ desenvolvido:
-
-
+\small
 \begin{verbatim}
 // (1) Datatype definition -----------------------------------------------------
 
@@ -1546,8 +1585,8 @@ let plug [] t = t
 let plug ((Dr False a l):z) t = Node (a,(plug z t,l))
 let plug ((Dr True  a r):z) t = Node (a,(r,plug z,t))
 
-
 \end{verbatim}
+
 
 %----------------- Fim do anexo com soluções dos alunos ------------------------%
 
